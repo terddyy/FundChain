@@ -1,1 +1,1 @@
-ASAN ANG SABAWWWW
+tngina mo guev
