@@ -1,1 +1,1 @@
-ASAN ANG SABAWWWW
+practice part 2. 6:05 koto ginawa
