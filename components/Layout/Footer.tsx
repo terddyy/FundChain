@@ -33,8 +33,8 @@ const Footer = () => {
 
 
   return (
-    <footer className="bg-white/10 opacity-90 p-4 text-white flex flex-col items-center gap-3">
-      <h1 className="text-3xl font-bold my-5">FundChain</h1>
+    <footer className="bg-white/10 opacity-90 p-4 md:p-10 text-white flex flex-col items-center gap-3 md:grid grid-cols-2">
+      <h1 className="text-3xl md:text-4xl font-bold my-5 md:text-center ">FundChain</h1>
 
       <div className="grid grid-cols-2 gap-2">
         {footerSections.map((item, index) => (
@@ -51,7 +51,7 @@ const Footer = () => {
         ))}
       </div>
 
-      <p className="text-white/80 text-xs text-center mt-10">
+      <p className="text-white/80 text-xs text-center mt-10 col-span-2">
         © 2025 FundChain. All rights reserved. · Privacy Policy · Terms of
         Service
       </p>

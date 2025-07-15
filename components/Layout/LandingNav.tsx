@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const LandingNav = () => {
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 5 });
 
   const navLinks = [
     { name: "Home", link: "#Home" },
@@ -10,7 +10,7 @@ const LandingNav = () => {
     { name: "How it works", link: "#How" },
   ];
 
-  function handleNav(e: React.MouseEvent<HTMLButtonElement>) {
+  function handleNav(e: React.MouseEvent<HTMLElement>) {
     const target = e.currentTarget;
     const left = target.offsetLeft;
     const width = target.offsetWidth;
@@ -19,26 +19,26 @@ const LandingNav = () => {
   }
 
   return (
-    <nav className="px-6 h-14 flex items-center justify-between text-white sticky top-0 bg-dark-violet z-20">
+    <nav className="px-6 h-18 flex items-center justify-between text-white sticky top-0 bg-dark-violet z-20 md:px-10 2xl:px-24">
       {/* Logo */}
-      <h1 className="font-bold  text-xl">FundChain</h1>
+      <h1 className="font-bold text-xl md:text-3xl">FundChain</h1>
 
       {/* nav list */}
-      <div className="flex items-center text-sm w-fit">
+      <div className="relative flex items-center text-sm w-fit md:gap-3 ">
         {/* moving bg */}
-        {/* Indicator */}
         <span
           className="absolute h-8 bg-violet rounded-lg transition-all duration-300"
           style={{ left: indicatorStyle.left, width: indicatorStyle.width }}
         />
         {navLinks.map((item, index) => (
-          <button
+          <a
+            href={item.link}
             onClick={handleNav}
-            className="z-20 text-sm transition-colors  p2-2 px-3 rounded-sm"
+            className="z-20 text-sm transition-colors  p2-2 px-3 rounded-sm md:text-lg"
             key={index}
           >
-            <a href={item.link}>{item.name}</a>
-          </button>
+            {item.name}
+          </a>
         ))}
       </div>
     </nav>

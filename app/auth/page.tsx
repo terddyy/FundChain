@@ -19,15 +19,13 @@ const page = () => {
     setIndicatorStyle({ width: width, left: left, form: value });
   }
 
- 
-
   return (
     <main className="bg-[radial-gradient(circle,_#A261F2,_#52327A,_#020202)] flex flex-col items-center justify-center gap- h-[100vh]">
       <h1 className="text-4xl text-white font-semibold text-center">
         FundChain
       </h1>
 
-      <div className="w-full max-w-sm overflow-hidden mx-auto py-10 ">
+      <div className="w-full max-w-sm md:max-w-lg overflow-hidden mx-auto py-10 ">
         <div
           className={`flex transiton-all duration-300 ${
             indicatorStyle.form === "Sign Up" ? "-ml-[100%]" : ""
