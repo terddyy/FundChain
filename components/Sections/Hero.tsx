@@ -11,7 +11,7 @@ const Hero = () => {
       </div>
 
       {/* texts */}
-      <div className="text-white text-center space-y-3">
+      <div className="text-white text-center space-y-3 w-full max-w-md">
         <h1 className="font-bold text-4xl  leading-10">
           Vote for projects! <br /> Fund via <span className="text-violet text-shadow-lg text-shadow-white/10">Blockchain</span>
         </h1>
