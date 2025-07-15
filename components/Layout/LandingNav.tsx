@@ -24,7 +24,7 @@ const LandingNav = () => {
       <h1 className="font-bold  text-xl">FundChain</h1>
 
       {/* nav list */}
-      <div className="flex items-center text-sm ">
+      <div className="flex items-center text-sm w-fit">
         {/* moving bg */}
         {/* Indicator */}
         <span
