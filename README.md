@@ -17,3 +17,16 @@ git commit -m "Add: description of what you changed"
 
 # Step 5: Push the branch to GitHub
 git push origin your-branch-name
+
+
+
+
+merge branches to the main::::
+
+-git checkout main
+
+-git pull origin main
+
+-git merge terd (or any branch)
+
+-git push origin main
