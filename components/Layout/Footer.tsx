@@ -33,7 +33,7 @@ const Footer = () => {
 
 
   return (
-    <footer className="bg-white/10 opacity-90 mt-30 p-4 text-white flex flex-col items-center gap-3">
+    <footer className="bg-white/10 opacity-90 p-4 text-white flex flex-col items-center gap-3">
       <h1 className="text-3xl font-bold my-5">FundChain</h1>
 
       <div className="grid grid-cols-2 gap-2">

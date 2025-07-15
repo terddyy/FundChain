@@ -71,7 +71,7 @@ const HowItWorks = () => {
           doloremque?
         </p>
         {/* image */}
-        <div className="flex flex-wrap items-center justify-center gap-10 mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-10 mt-4">
           {sectors.map((item, index) => {
             const Icon = item.icon;
             return (
