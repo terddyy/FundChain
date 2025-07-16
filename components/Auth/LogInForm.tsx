@@ -12,11 +12,10 @@ const LogInForm = () => {
   return (
     <form
       onSubmit={handleLogIn}
-      
       className=" text-white flex flex-col items-center justify-center gap-15 w-full min-w-sm md:min-w-lg px-5"
     >
+
       {/* main form */}
-      
       <div className=" p-5 rounded-xl space-y-5 bg-transparent shadow-center-white text-center w-full ">
         <h1 className="text-3xl font-semibold my-12 text-center">Log In</h1>
         {/* email */}
