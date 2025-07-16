@@ -1,3 +1,2 @@
-tngina mo guev
 
-tangina mo din tol
+tngina mo guev
