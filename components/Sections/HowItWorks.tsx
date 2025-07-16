@@ -85,18 +85,18 @@ const HowItWorks = () => {
           </p>
         </div>
         {/* image */}
-        <div className="flex flex-wrap xl:flex-col items-center justify-center gap-10 xl:gap-2 mt-4 max-w-sm md:max-w-xl xl:w-full">
+        <div className="flex flex-wrap  items-center justify-center gap-10 xl:gap-2 mt-4 w-full max-w-sm md:max-w-xl xl:max-w-2xl">
           {sectors.map((item, index) => {
             const Icon = item.icon;
             return (
               <div
                 key={index}
-                className="flex flex-col items-center xl:grid grid-cols-[fit-content(300px)_1fr] grid-rows-2 xl:space-x-2 max-xl:gap-2 p-4 rounded-2xl bg-white/10 border border-white/20 w-full  md:max-w-3xs xl:max-w-xl"
+                className="flex flex-col items-center gap-2 xl:grid grid-cols-[fit-content(300px)_1fr] grid-rows-2 xl:space-x-2 max-xl:gap-2 p-4 rounded-2xl bg-white/10 border border-white/20 h-max w-full  md:max-w-3xs xl:max-w-xs"
               >
-                <Icon className="w-14 xl:w-8 h-auto row-span-2" />
+                <Icon className="w-14 xl:w-8 h-auto" />
 
                 <h1 className="font-medium text-lg xl:text-left">{item.sector}</h1>
-                <p className="text-xs xl:text-left">{item.description}</p>
+                <p className="text-xs xl:text-left col-span-2">{item.description}</p>
               </div>
             );
           })}

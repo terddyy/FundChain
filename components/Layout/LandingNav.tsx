@@ -1,22 +1,16 @@
 "use client";
+import { handleMove } from "@/lib/getIndicatory";
+import { GetIndicatorStyle } from "@/lib/interfaces";
 import React, { useState } from "react";
 
 const LandingNav = () => {
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 5 });
+  const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({ left: 0, width: 5 });
 
   const navLinks = [
     { name: "Home", link: "#Home" },
     { name: "About", link: "#About" },
     { name: "How it works", link: "#How" },
   ];
-
-  function handleNav(e: React.MouseEvent<HTMLElement>) {
-    const target = e.currentTarget;
-    const left = target.offsetLeft;
-    const width = target.offsetWidth;
-
-    setIndicatorStyle({ left, width });
-  }
 
   return (
     <nav className="px-6 h-18 flex items-center justify-between text-white sticky top-0 bg-dark-violet z-20 md:px-10 2xl:px-24">
@@ -33,7 +27,7 @@ const LandingNav = () => {
         {navLinks.map((item, index) => (
           <a
             href={item.link}
-            onClick={handleNav}
+            onClick={(e) => handleMove(e, setIndicatorStyle)}
             className="z-20 text-sm transition-colors  p2-2 px-3 rounded-sm md:text-lg"
             key={index}
           >

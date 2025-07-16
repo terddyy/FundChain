@@ -1,23 +1,16 @@
 "use client";
 import LogInForm from "@/components/Auth/LogInForm";
 import SignUpForm from "@/components/Auth/SignUpForm";
+import { handleMove } from "@/lib/getIndicatory";
+import { GetIndicatorStyle } from "@/lib/interfaces";
 import React, { useState } from "react";
 
 const page = () => {
-  const [indicatorStyle, setIndicatorStyle] = useState({
+  const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({
     left: 8,
     width: 70,
-    form: "Log In",
+    name: "Log In",
   });
-
-  function handleMove(e: React.MouseEvent<HTMLElement>) {
-    const target = e.currentTarget;
-    const left = target.offsetLeft;
-    const width = target.offsetWidth;
-    const value = target.textContent;
-
-    setIndicatorStyle({ width: width, left: left, form: value });
-  }
 
   return (
     <main className="bg-[radial-gradient(circle,_#A261F2,_#52327A,_#020202)] flex flex-col items-center justify-center gap- h-[100vh]">
@@ -28,7 +21,7 @@ const page = () => {
       <div className="w-full max-w-sm md:max-w-lg overflow-hidden mx-auto py-10 ">
         <div
           className={`flex transiton-all duration-300 ${
-            indicatorStyle.form === "Sign Up" ? "-ml-[100%]" : ""
+            indicatorStyle.name === "Sign Up" ? "-ml-[100%]" : ""
           }`}
         >
           <LogInForm />
@@ -43,10 +36,16 @@ const page = () => {
           style={{ left: indicatorStyle.left, width: indicatorStyle.width }}
         ></span>
 
-        <h1 onClick={handleMove} className=" px-3 cursor-pointer z-10">
+        <h1
+          onClick={(e) => handleMove(e, setIndicatorStyle)}
+          className=" px-3 cursor-pointer z-10"
+        >
           Log In
         </h1>
-        <h1 onClick={handleMove} className=" px-3 cursor-pointer z-10">
+        <h1
+          onClick={(e) => handleMove(e, setIndicatorStyle)}
+          className=" px-3 cursor-pointer z-10"
+        >
           Sign Up
         </h1>
       </div>
