@@ -1,11 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CircleUser } from "lucide-react";
 import Link from "next/link";
 import { handleMove } from "@/lib/getIndicatory";
+import { usePathname } from "next/navigation";
+import { GetIndicatorStyle } from "@/lib/interfaces";
 
 const UserNav = () => {
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 8, width: 105 });
+  const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({
+    left: 8,
+    width: 105,
+    name: "Dasboard",
+  });
+  const path = usePathname();
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    const pathName = path.split("/");
+    const lastIndex = pathName[pathName.length - 1];
+
+    if (lastIndex.toLowerCase() === "projects") {
+      setIndicatorStyle({ width: 79, left: 117, name: "Projects" });
+    } else {
+      setIndicatorStyle({ width: 105, left: 8, name: "Dashboard" });
+    }
+  }, [path]); // prevents hydration error
 
   return (
     <nav className="text-white grid grid-cols-2 grid-rows-[repeat(2,_auto)] px-5 h-fit place-content-center py-4">
