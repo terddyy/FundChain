@@ -16,6 +16,7 @@ const UserNav = () => {
 
   const [hasMounted, setHasMounted] = useState(false);
 
+  // gets existing sectors from the projects
   useEffect(() => {
     const pathName = path.split("/");
     const lastIndex = pathName[pathName.length - 1];
