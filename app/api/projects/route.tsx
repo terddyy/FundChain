@@ -14,6 +14,7 @@
 //   BanknoteArrowUp,
 // } from "lucide-react";
 import { NextResponse } from "next/server";
+// const sample data
 const projects = [
   {
     title: "Community Learning Center",
@@ -106,6 +107,6 @@ const projects = [
 ];
 
 export async function GET() {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
+  // await new Promise((resolve) => setTimeout(resolve, 4000)); //delay para makita yung skeleton
   return NextResponse.json(projects);
 }

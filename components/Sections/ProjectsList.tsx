@@ -13,7 +13,6 @@ const ProjectsList = ({ projects }: Props) => {
   const [selectedSector, setSelectedSector] = useState("");
 
   const allProjects = use(projects);
-  console.log(allProjects);
 
   const sectors = Array.from(new Set(allProjects.map((p) => p.sector)));
 
