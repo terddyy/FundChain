@@ -13,7 +13,7 @@ const SignUpForm = () => {
       className=" text-white flex flex-col items-center justify-center gap-15 w-full min-w-sm px-5"
     >
       {/* main form */}
-      <div className=" p-5 rounded-xl space-y-5 bg-transparent shadow-center-white text-center w-full max-w-sm md:max-w-lg ">
+      <div className=" p-5 rounded-xl space-y-5 bg-white/10 shadow-center-white text-center w-full max-w-sm md:max-w-lg ">
         <h1 className="text-3xl font-semibold my-12 text-center">Sign Up</h1>
         {/* name */}
         <div className="grid w-full max-w-sm items-center gap-1 mx-auto">

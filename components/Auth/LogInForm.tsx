@@ -16,7 +16,7 @@ const LogInForm = () => {
     >
 
       {/* main form */}
-      <div className=" p-5 rounded-xl space-y-5 bg-transparent shadow-center-white text-center w-full ">
+      <div className=" p-5 rounded-xl space-y-5 bg-white/10 shadow-center-white text-center w-full ">
         <h1 className="text-3xl font-semibold my-12 text-center">Log In</h1>
         {/* email */}
         <div className="grid w-full max-w-sm items-center gap-1 mx-auto">

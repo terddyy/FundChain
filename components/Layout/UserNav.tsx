@@ -42,14 +42,14 @@ const UserNav = () => {
         <Link
           className="px-2 py-1 z-10"
           onClick={(e) => handleMove(e, setIndicatorStyle)}
-          href={"/dashboard"}
+          href={"/user"}
         >
           Dashboard
         </Link>
         <Link
           className="px-2 py-1 z-10"
           onClick={(e) => handleMove(e, setIndicatorStyle)}
-          href={"/dashboard/projects"}
+          href={"/user/projects"}
         >
           Projects
         </Link>
