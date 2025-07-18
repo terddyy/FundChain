@@ -1,4 +1,4 @@
-import ProjectsList from "@/components/Sections/ProjectsList";
+import UserProjectsList from "@/components/Sections/UserProjectsList";
 import { SkeletonCard } from "@/components/Skeletons/SkeletonCard";
 import { getProjects } from "@/lib/getProjects";
 import { Suspense } from "react";
@@ -7,7 +7,7 @@ const page = () => {
   const projects = getProjects();
   return (
     <Suspense fallback={<SkeletonCard quantity={10} />}>
-      <ProjectsList projects={projects} />
+      <UserProjectsList projects={projects} />
     </Suspense>
   );
 };

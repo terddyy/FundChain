@@ -11,5 +11,7 @@ export interface Projects {
   description: string;
   sector: string;
   targetFunds: number;
+  status: "Approved" | "Pending" | "Rejected";
   currentFunds: number;
+  votes : number
 }

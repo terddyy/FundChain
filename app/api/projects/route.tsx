@@ -23,6 +23,8 @@ const projects = [
     sector: "Education",
     targetFunds: 1000,
     currentFunds: 80,
+    status: "Approved",
+    votes: 2345,
   },
   {
     title: "Clean Water Initiative",
@@ -31,6 +33,8 @@ const projects = [
     sector: "Health",
     targetFunds: 2500,
     currentFunds: 500,
+    status: "Pending",
+    votes: 967896,
   },
   {
     title: "Urban Tree Planting Program",
@@ -39,14 +43,18 @@ const projects = [
     sector: "Environment",
     targetFunds: 1500,
     currentFunds: 300,
+    status: "Approved",
+    votes: 2345,
   },
   {
     title: "Youth Coding Bootcamp",
     description:
       "Offer free tech education and career mentorship to underprivileged high school students.",
     sector: "Technology",
+    status: "Approved",
     targetFunds: 2000,
     currentFunds: 1250,
+    votes: 768967,
   },
   {
     title: "Mobile Health Clinic",
@@ -55,6 +63,8 @@ const projects = [
     sector: "Healthcare",
     targetFunds: 5000,
     currentFunds: 2450,
+    status: "Rejected",
+    votes: 1234612,
   },
   {
     title: "Food for Families",
@@ -62,6 +72,9 @@ const projects = [
       "Support low-income families with monthly grocery packages to fight hunger.",
     sector: "Social Welfare",
     targetFunds: 1200,
+    status: "Rejected",
+    votes: 6789,
+
     currentFunds: 960,
   },
   {
@@ -71,6 +84,8 @@ const projects = [
     sector: "Energy",
     targetFunds: 3000,
     currentFunds: 1800,
+    status: "Approved",
+    votes: 1234,
   },
   {
     title: "Indigenous Arts Revival",
@@ -79,6 +94,8 @@ const projects = [
     sector: "Culture",
     targetFunds: 800,
     currentFunds: 310,
+    status: "Approved",
+    votes: 5624,
   },
   {
     title: "Women in Business Program",
@@ -87,6 +104,8 @@ const projects = [
     sector: "Entrepreneurship",
     targetFunds: 4000,
     currentFunds: 1650,
+    status: "Approved",
+    votes: 31234,
   },
   {
     title: "Disaster Relief Fund",
@@ -95,6 +114,8 @@ const projects = [
     sector: "Emergency Response",
     targetFunds: 6000,
     currentFunds: 3200,
+    status: "Approved",
+    votes: 300,
   },
   {
     title: "Digital Access for Seniors",
@@ -103,6 +124,8 @@ const projects = [
     sector: "Elderly Care",
     targetFunds: 1800,
     currentFunds: 700,
+    status: "Approved",
+    votes: 5624,
   },
 ];
 

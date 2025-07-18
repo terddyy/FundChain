@@ -9,7 +9,7 @@ interface Props {
   projects: Promise<Projects[]>;
 }
 
-const ProjectsList = ({ projects }: Props) => {
+const UserProjectsList = ({ projects }: Props) => {
   const [selectedSector, setSelectedSector] = useState("");
 
   const allProjects = use(projects);
@@ -103,4 +103,4 @@ const ProjectsList = ({ projects }: Props) => {
   );
 };
 
-export default ProjectsList;
+export default UserProjectsList;
