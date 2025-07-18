@@ -130,15 +130,15 @@ export function ProjectCard({
           <h5
             className={`w-fit px-2 py-1 rounded-xl ${
               status === "Approved"
-                ? "bg-green-500/50 text-green-500"
+                ? "bg-green-600/40 text-green-500"
                 : status === "Pending"
-                ? "bg-yellow-500/50 text-yellow-500"
-                : "bg-red-500/50 text-red-500"
+                ? "bg-yellow-600/30 text-yellow-500"
+                : "bg-red-600/30 text-red-500"
             }`}
           >
             {status}
           </h5>
-          <h5 className="text-gray-300">{votes.toLocaleString()}</h5>
+          <h5 className="text-gray-300">{votes.toLocaleString()} votes</h5>
           <h5 className="text-violet-400">${funds}</h5>
           {/* <h5 className="text-gray-300 ml-auto">{sector}</h5> */}
         </div>
@@ -146,8 +146,8 @@ export function ProjectCard({
 
       {/* actions */}
       <div className="space-x-2 ml-auto flex items-start justify-center text-gray-500">
-        <Edit2Icon width={20} height={20} />
-        <Trash2 width={20} height={20} />
+        <Edit2Icon className="cursor-pointer  hover:text-gray-200" width={20} height={20} />
+        <Trash2 className="cursor-pointer hover:text-gray-200" width={20} height={20} />
       </div>
     </div>
   );
