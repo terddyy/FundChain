@@ -1,4 +1,4 @@
-import UserProjectsList from "@/components/Sections/UserProjectsList";
+import UserProjectsList from "@/components/Sections/user/UserProjectsList";
 import { SkeletonCard } from "@/components/Skeletons/SkeletonCard";
 import { getProjects } from "@/lib/getProjects";
 import { Suspense } from "react";

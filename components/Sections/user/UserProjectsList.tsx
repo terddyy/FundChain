@@ -1,9 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Projects } from "@/lib/interfaces";
 import { ThumbsUp, BanknoteArrowUp } from "lucide-react";
 import React, { use, useState } from "react";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
+
 
 interface Props {
   projects: Promise<Projects[]>;

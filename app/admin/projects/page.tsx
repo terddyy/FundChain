@@ -1,4 +1,4 @@
-import AdminProjectList from "@/components/Sections/AdminProjectList";
+import AdminProjectList from "@/components/Sections/admin/AdminProjectList";
 import { AdminProjectListSkeleton } from "@/components/Skeletons/AdminProjectListSkeleton";
 import { getProjects } from "@/lib/getProjects";
 import React, { Suspense } from "react";

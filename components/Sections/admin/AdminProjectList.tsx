@@ -1,8 +1,7 @@
 "use client";
 import { Projects } from "@/lib/interfaces";
 import React, { use, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+
 import { handleChange } from "@/lib/getIndicatory";
 
 import {
@@ -15,6 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Edit2Icon, FilterIcon, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   projects: Promise<Projects[]>;
@@ -41,7 +42,7 @@ const AdminProjectList = ({ projects }: Props) => {
   return (
     <div>
       {/* heading */}
-      <div className="text-white flex items-start justify-between">
+      <div className="text-white flex flex-col md:flex-row gap-5 items-center md:items-start justify-between">
         <h1 className="text-3xl font-semibold">Project Management</h1>
 
         {/* seach and filter */}

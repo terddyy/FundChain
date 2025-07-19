@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "../ui/input";
 import { handleChange } from "@/lib/getIndicatory";
 import {
   Table,
@@ -12,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Eye, OctagonMinus } from "lucide-react";
+import { Input } from "@/components/ui/input";
 const users = [
   {
     user: "SarahJ",
@@ -90,7 +90,7 @@ const AdminUsersList = () => {
   return (
     <div>
       {/* heading */}
-      <div className="text-white flex items-start justify-between">
+      <div className="text-white flex flex-col md:flex-row gap-5 items-center md:items-start justify-between">
         <h1 className="text-3xl font-semibold">Users Management</h1>
 
         {/* seach and filter */}
@@ -102,13 +102,13 @@ const AdminUsersList = () => {
         </div>
 
       {/* table */}
-      <div className="mt-10">
+      <div className="mt-10 w-full max-w-7xl mx-auto">
         <Table>
           <TableCaption className="text-gray-300">
             A list of users.
           </TableCaption>
           <TableHeader>
-            <TableRow>
+            <TableRow >
               <TableHead>User</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Contributions</TableHead>
@@ -116,7 +116,7 @@ const AdminUsersList = () => {
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody >
             {users
               .filter((user) =>
                 search
