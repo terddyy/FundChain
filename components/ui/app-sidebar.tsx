@@ -1,17 +1,4 @@
-import {
-  BarChart,
-  Bell,
-  ChartColumnIncreasing,
-  DollarSign,
-  FolderOpen,
-  Globe,
-  Link,
-  Settings,
-  Shield,
-  TrendingUp,
-  Users,
-  Vote,
-} from "lucide-react";
+// "use client"
 
 import {
   Sidebar,
@@ -23,28 +10,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { SetStateAction, useState } from "react";
+import { ChartColumnIncreasing, LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { SetStateAction } from "react";
+
+interface NavLinksProps {
+  label: string;
+  url: string;
+  icon: LucideIcon;
+}
 
 interface Props {
   setActiveTab: React.Dispatch<SetStateAction<string>>;
   activeTab: string;
+  navLinks: NavLinksProps[];
 }
 
-const sidebarItems = [
-  { url: "/admin", label: "Dashboard", icon: BarChart },
-  { url: "/admin/projects", label: "Projects", icon: FolderOpen },
-  { url: "/admin/users", label: "Users", icon: Users },
-  { url: "/admin/sectors", label: "Sectors", icon: Globe },
-  { url: "/admin/voting", label: "Voting", icon: Vote },
-  { url: "/admin/funding", label: "Funding", icon: DollarSign },
-  { url: "/admin/blockchain", label: "Blockchain", icon: Link },
-  { url: "/admin/analytics", label: "Analytics", icon: TrendingUp },
-  { url: "/admin/notifications", label: "Notifications", icon: Bell },
-  { url: "/admin/settings", label: "Settings", icon: Settings },
-  { url: "/admin/security", label: "Security", icon: Shield },
-];
-
-export function AppSidebar({ setActiveTab, activeTab }: Props) {
+export function AppSidebar({ setActiveTab, activeTab, navLinks }: Props) {
+  console.log(activeTab);
   return (
     <Sidebar className="border-r-gray-800 text-white">
       <SidebarContent className="bg-gray-900 ">
@@ -56,7 +39,7 @@ export function AppSidebar({ setActiveTab, activeTab }: Props) {
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-10">
             <SidebarMenu>
-              {sidebarItems.map((item) => (
+              {navLinks.map((item) => (
                 <SidebarMenuItem
                   key={item.label}
                   onClick={() => setActiveTab(item.label)}
@@ -69,10 +52,10 @@ export function AppSidebar({ setActiveTab, activeTab }: Props) {
                     }`}
                     asChild
                   >
-                    <a href={"#"}>
+                    <Link href={item.url}>
                       <item.icon className="!w-6 !h-6" />
                       <span>{item.label}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
