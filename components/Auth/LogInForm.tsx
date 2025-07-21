@@ -3,10 +3,33 @@ import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 const LogInForm = () => {
-  function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
+  // log in
+  async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    console.log(email, password);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      console.log(data.user);
+      console.log(session);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -21,6 +44,7 @@ const LogInForm = () => {
         <div className="grid w-full max-w-sm items-center gap-1 mx-auto">
           <Label htmlFor="email">Email</Label>
           <Input
+            name="email"
             required
             type="email"
             id="email"
@@ -32,6 +56,7 @@ const LogInForm = () => {
         <div className="grid w-full max-w-sm  items-center gap-1 mx-auto">
           <Label htmlFor="password">Password</Label>
           <Input
+            name="password"
             required
             type="password"
             id="password"

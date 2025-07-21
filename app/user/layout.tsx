@@ -1,4 +1,5 @@
 import UserNav from "@/components/Layout/UserNav";
+import AuthProvider from "@/lib/Context/AuthContext";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} bg-dark-violet antialiased`}>
-        <UserNav />
-        {children}
+        <AuthProvider role="user">
+          <UserNav />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
