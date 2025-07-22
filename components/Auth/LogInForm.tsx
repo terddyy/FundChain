@@ -1,11 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { supabase } from "@/lib/supabase/supabaseClient";
+import { useRouter } from "next/navigation";
 
 const LogInForm = () => {
+  const router = useRouter();
+
   // log in
   async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -16,17 +19,30 @@ const LogInForm = () => {
 
     console.log(email, password);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
+      // sign in user
+      const { data, error: signInError } =
+        await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
+      // gets the user id
+      const userId = data.user?.id;
       console.log(data.user);
-      console.log(session);
+
+      // sets role on jwt
+      // Fetch the user's role from your table
+      const { data: userRow, error: fetchError } = await supabase
+        .from("Users")
+        .select("role")
+        .eq("id", userId)
+        .single();
+
+      if (userRow?.role === "admin") {
+        router.push("admin");
+      } else if (userRow?.role === "user") {
+        router.push("user");
+      }
     } catch (error) {
       console.log(error);
     }

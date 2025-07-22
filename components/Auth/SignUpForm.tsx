@@ -2,7 +2,6 @@ import React from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ClockFading } from "lucide-react";
 import { supabase } from "@/lib/supabase/supabaseClient";
 
 const SignUpForm = () => {
@@ -44,8 +43,6 @@ const SignUpForm = () => {
     } else {
       console.log("User added to custom users table:", data);
     }
-
-    console.log(data);
   }
 
   return (

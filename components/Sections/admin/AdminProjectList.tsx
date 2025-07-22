@@ -120,35 +120,40 @@ export function ProjectCard({
   sector,
 }: ProjectCardProps) {
   return (
-    <div className="bg-grayish-blue border border-gray-700 p-4 rounded-xl flex w-full max-w-lg h-max space-x-5">
-      {/* contents */}
-      <div className="flex flex-col gap-9">
-        {/* title */}
-        <h1 className="text-2xl font-semibold text-white">{title}</h1>
-        
-        {/* other contents */}
-        <div className="space-x-2 flex items-center text-sm">
-          <h5
-            className={`w-fit px-2 py-1 rounded-xl ${
-              status === "Approved"
-                ? "bg-green-600/40 text-green-500"
-                : status === "Pending"
-                ? "bg-yellow-600/30 text-yellow-500"
-                : "bg-red-600/30 text-red-500"
-            }`}
-          >
-            {status}
-          </h5>
-          <h5 className="text-gray-300">{votes.toLocaleString()} votes</h5>
-          <h5 className="text-violet-400">${funds}</h5>
-          {/* <h5 className="text-gray-300 ml-auto">{sector}</h5> */}
-        </div>
-      </div>
+    <div className="bg-grayish-blue border border-gray-700 p-4 rounded-xl grid grid-cols-3 grid-rows-[_repeat(1,_minmax(70px,80px))] gap-2 w-full max-w-lg full space-x-5">
+      {/* title */}
+      <h1 className="text-2xl font-semibold text-white col-span-2">{title}</h1>
 
       {/* actions */}
       <div className="space-x-2 ml-auto flex items-start justify-center text-gray-500">
-        <Edit2Icon className="cursor-pointer  hover:text-gray-200" width={20} height={20} />
-        <Trash2 className="cursor-pointer hover:text-gray-200" width={20} height={20} />
+        <Edit2Icon
+          className="cursor-pointer  hover:text-gray-200"
+          width={20}
+          height={20}
+        />
+        <Trash2
+          className="cursor-pointer hover:text-gray-200"
+          width={20}
+          height={20}
+        />
+      </div>
+
+      {/* other contents */}
+      <div className="space-x-2 flex items-center text-sm col-span-3">
+        <h5
+          className={`w-fit px-2 py-1 rounded-xl ${
+            status === "Approved"
+              ? "bg-green-600/40 text-green-500"
+              : status === "Pending"
+              ? "bg-yellow-600/30 text-yellow-500"
+              : "bg-red-600/30 text-red-500"
+          }`}
+        >
+          {status}
+        </h5>
+        <h5 className="text-gray-300">{votes.toLocaleString()} votes</h5>
+        <h5 className="text-violet-400">${funds}</h5>
+        {/* <h5 className="text-gray-300 ml-auto">{sector}</h5> */}
       </div>
     </div>
   );

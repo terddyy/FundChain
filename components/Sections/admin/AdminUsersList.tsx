@@ -87,6 +87,7 @@ const users = [
 
 const AdminUsersList = () => {
   const [search, setSearch] = useState("");
+
   return (
     <div>
       {/* heading */}
@@ -94,12 +95,12 @@ const AdminUsersList = () => {
         <h1 className="text-3xl font-semibold">Users Management</h1>
 
         {/* seach and filter */}
-          <Input
-            className="w-full max-w-sm bg-grayish-blue border border-gray-600"
-            placeholder="Search Projects.."
-            onChange={(e) => handleChange(e, setSearch)}
-          />
-        </div>
+        <Input
+          className="w-full max-w-sm bg-grayish-blue border border-gray-600"
+          placeholder="Search Projects.."
+          onChange={(e) => handleChange(e, setSearch)}
+        />
+      </div>
 
       {/* table */}
       <div className="mt-10 w-full max-w-7xl mx-auto">
@@ -108,7 +109,7 @@ const AdminUsersList = () => {
             A list of users.
           </TableCaption>
           <TableHeader>
-            <TableRow >
+            <TableRow>
               <TableHead>User</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Contributions</TableHead>
@@ -116,7 +117,7 @@ const AdminUsersList = () => {
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody >
+          <TableBody>
             {users
               .filter((user) =>
                 search

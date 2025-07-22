@@ -34,11 +34,11 @@ const AuthProvider = ({ children, role }: Props) => {
       }
       setUserData(user);
       setIsLoading(false);
-      console.log(user);
     };
 
     fetchUserData();
   }, []);
+
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -17,7 +17,7 @@ import {
   Bell,
   CircleUser,
 } from "lucide-react";
-import AuthProvider, { AuthContext, useAuth } from "@/lib/Context/AuthContext";
+import AuthProvider, { useAuth } from "@/lib/Context/AuthContext";
 
 const sidebarItems = [
   { url: "/admin", label: "Dashboard", icon: BarChart },
@@ -35,7 +35,6 @@ const sidebarItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = useState("Dashboard");
-  const user = useAuth();
 
   return (
     <AuthProvider role={"admin"}>
