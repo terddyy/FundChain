@@ -14,13 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} bg-dark-violet antialiased`}>
-        <AuthProvider role="user">
-          <UserNav />
-          {children}
-        </AuthProvider>
-      </body>
-    </html>
+    <AuthProvider role="user">
+      <main className={`${poppins.className} bg-dark-violet antialiased h-[100vh]`}>
+        <UserNav />
+        {children}
+      </main>
+    </AuthProvider>
   );
 }

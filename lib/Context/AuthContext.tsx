@@ -18,10 +18,10 @@ const AuthProvider = ({ children, role }: Props) => {
   useEffect(() => {
     // fetch user data
     const fetchUserData = async () => {
-      const { data: user, error } = await supabase
-        .from("Users")
-        .select("*")
-        .single();
+      const { data: user, error } = await supabase.from("Users").select("*");
+      // .single();
+
+      console.log();
 
       if (error) {
         console.log(error.message);
@@ -29,16 +29,15 @@ const AuthProvider = ({ children, role }: Props) => {
         return;
       }
 
-      if (user.role !== role) {
+      if (user?.[0].role !== role) {
         return router.push("/auth");
       }
-      setUserData(user);
+      setUserData(user[0]);
       setIsLoading(false);
     };
 
     fetchUserData();
   }, []);
-
 
   if (isLoading) {
     return <div>Loading...</div>;

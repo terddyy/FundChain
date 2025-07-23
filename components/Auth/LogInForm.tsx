@@ -17,7 +17,6 @@ const LogInForm = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    console.log(email, password);
     try {
       // sign in user
       const { data, error: signInError } =
@@ -28,19 +27,32 @@ const LogInForm = () => {
 
       // gets the user id
       const userId = data.user?.id;
-      console.log(data.user);
+      const userRole = data.user?.app_metadata['https://fundChain.com/claims'].role
 
-      // sets role on jwt
       // Fetch the user's role from your table
       const { data: userRow, error: fetchError } = await supabase
         .from("Users")
         .select("role")
         .eq("id", userId)
-        .single();
+      
 
-      if (userRow?.role === "admin") {
+      // sets role on jwt
+      // const res = await fetch("/api/auth", {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json", // ✅ tells your API to respond with JSON
+      //     "Content-Type": "application/json", // ✅ you're sending JSON in the body
+      //   },
+      //   body: JSON.stringify({ userId, role: userRow?.role }),
+      // });
+
+      console.log(data.session);
+      console.log(userRow);
+
+      // redirect user
+      if (userRole === "admin") {
         router.push("admin");
-      } else if (userRow?.role === "user") {
+      } else if (userRole === "user") {
         router.push("user");
       }
     } catch (error) {

@@ -19,7 +19,7 @@ function DialogTrigger({
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
       {...props}
-      className="text-white text-sm items-center bg-violet-600 cursor-pointer px-2 py-1 rounded-md flex gap-2"
+      className="text-white text-sm items-center cursor-pointer px-2 py-1 rounded-md flex gap-2"
     />
   );
 }

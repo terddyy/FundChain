@@ -6,9 +6,7 @@ export async function POST(req: NextRequest) {
   console.log(userId, role);
 
   const { data, error } = await supabase.auth.admin.updateUserById(userId, {
-    user_metadata: {
-      "https://fundChain.com/claims": { role },
-    },
+    app_metadata: { "https://fundChain.com/claims": { role } },
   });
 
   if (error) {

@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { handleChange } from "@/lib/getIndicatory";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Edit2Icon, Plus, Trash2 } from "lucide-react";
 import {
   Dialog,
@@ -14,95 +14,18 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase/supabaseClient";
+import { SectorProps } from "@/lib/interfaces";
+import { DialogClose } from "@radix-ui/react-dialog";
 
-interface SectorCardProps {
-  title: string;
-  description: string;
-  activeProjects: number;
-  totalVotes: number;
-  totalFunds: number;
+interface Props {
+  sectorList: Promise<SectorProps[]>;
 }
 
-const AdminSectorList = () => {
+const AdminSectorList = ({ sectorList }: Props) => {
   const [search, setSearch] = useState("");
 
-  // sample data
-  const sectors = [
-    {
-      title: "Healthcare",
-      description:
-        "Improving access to quality medical services and facilities.",
-      activeProjects: 12,
-      totalVotes: 1824,
-      totalFunds: 250000,
-    },
-    {
-      title: "Education",
-      description:
-        "Enhancing educational resources, schools, and training centers.",
-      activeProjects: 8,
-      totalVotes: 1340,
-      totalFunds: 180000,
-    },
-    {
-      title: "Agriculture",
-      description:
-        "Supporting farmers and modernizing agricultural techniques.",
-      activeProjects: 15,
-      totalVotes: 920,
-      totalFunds: 140000,
-    },
-    {
-      title: "Infrastructure",
-      description:
-        "Building and maintaining roads, bridges, and public facilities.",
-      activeProjects: 6,
-      totalVotes: 2150,
-      totalFunds: 320000,
-    },
-    {
-      title: "Environment",
-      description: "Preserving natural resources and promoting sustainability.",
-      activeProjects: 5,
-      totalVotes: 870,
-      totalFunds: 95000,
-    },
-    {
-      title: "Technology",
-      description: "Advancing digital access, innovation, and tech education.",
-      activeProjects: 9,
-      totalVotes: 1645,
-      totalFunds: 210000,
-    },
-    {
-      title: "Tourism",
-      description: "Promoting local attractions and cultural heritage.",
-      activeProjects: 4,
-      totalVotes: 540,
-      totalFunds: 78000,
-    },
-    {
-      title: "Public Safety",
-      description: "Improving emergency services and community protection.",
-      activeProjects: 7,
-      totalVotes: 1200,
-      totalFunds: 160000,
-    },
-    {
-      title: "Transportation",
-      description: "Developing efficient public and rural transportation.",
-      activeProjects: 10,
-      totalVotes: 980,
-      totalFunds: 195000,
-    },
-    {
-      title: "Energy",
-      description: "Investing in renewable energy and power infrastructure.",
-      activeProjects: 6,
-      totalVotes: 1035,
-      totalFunds: 230000,
-    },
-  ];
+  const sectors = use(sectorList);
 
   return (
     <div>
@@ -113,14 +36,14 @@ const AdminSectorList = () => {
         <div className="flex gap-2">
           {/* dialog add sector form */}
           <Dialog>
-            <DialogTrigger >
+            <DialogTrigger className="bg-violet-600">
               Add Sector <Plus />
             </DialogTrigger>
-            <DialogContent >
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>Add new sector</DialogTitle>
               </DialogHeader>
-              <SectorForm />
+              <CreateSectorForm />
             </DialogContent>
           </Dialog>
 
@@ -139,17 +62,10 @@ const AdminSectorList = () => {
       <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
         {sectors
           .filter((s) =>
-            search ? s.title.toLowerCase().includes(search.toLowerCase()) : s
+            search ? s.name.toLowerCase().includes(search.toLowerCase()) : s
           )
           .map((sector, index) => (
-            <SectorCard
-              key={index}
-              title={sector.title}
-              description={sector.description}
-              activeProjects={sector.activeProjects}
-              totalVotes={sector.totalVotes}
-              totalFunds={sector.totalFunds}
-            />
+            <SectorCard key={index} sector={sector} />
           ))}
       </div>
     </div>
@@ -158,22 +74,41 @@ const AdminSectorList = () => {
 
 export default AdminSectorList;
 
-export function SectorCard({
-  title,
-  description,
-  activeProjects,
-  totalVotes,
-  totalFunds,
-}: SectorCardProps) {
+// Sector card
+export function SectorCard({ sector }: { sector: SectorProps }) {
+  const { created_at, id, description, funds, name, projects, votes } = sector;
+
+  async function deleteSector(id: string) {
+    const { data: deletedSector, error } = await supabase
+      .from("Sectors")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+
+    window.location.reload()
+  }
+
   return (
     <div className="p-4 rounded-xl border border-gray-600 bg-grayish-blue grid grid-cols-3 grid-rows-[repeat(3,_fit-content(100%))] gap-2 w-full max-w-lg">
       {/* title */}
-      <h1 className="text-white col-span-2 text-2xl font-semibold">{title}</h1>
+      <h1 className="text-white col-span-2 text-2xl font-semibold">{name}</h1>
 
       {/* icons */}
       <div className="text-white justify-self-end flex gap-2">
-        <Edit2Icon />
-        <Trash2 />
+        <Dialog>
+          <DialogTrigger>
+            <Edit2Icon className="bg-none" />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit sector</DialogTitle>
+            </DialogHeader>
+            <EditSectorForm id={id as string} />
+          </DialogContent>
+        </Dialog>
+
+        <Trash2 onClick={() => deleteSector(id as string)} />
       </div>
 
       {/* description */}
@@ -184,23 +119,42 @@ export function SectorCard({
       <div className="col-start-1 flex gap-2 col-span-3">
         <h2 className="col-start-1 text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Projects: </span>
-          {activeProjects}
+          {projects}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Votes: </span>
-          {totalVotes}
+          {votes}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
-          <span className="text-gray-200">Funds: </span>${totalFunds}
+          <span className="text-gray-200">Funds: </span>${funds}
         </h2>
       </div>
     </div>
   );
 }
 
-export function SectorForm() {
+// create sector form
+function CreateSectorForm() {
+  // creation of new sector
+  async function handleCreateSector(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const name = formData.get("name");
+    const description = formData.get("description");
+
+    const { data: newSector, error } = await supabase
+      .from("Sectors")
+      .insert({ name, description });
+
+    if (error) throw error;
+
+    return newSector;
+  }
+
   return (
     <form
+      onSubmit={handleCreateSector}
       action=""
       className="flex flex-col items-center justify-center gap-5 mt-8 "
     >
@@ -211,6 +165,7 @@ export function SectorForm() {
           className="bg-white "
           type="name"
           id="name"
+          name="name"
           placeholder="Enter sector name"
         />
       </div>
@@ -218,6 +173,7 @@ export function SectorForm() {
       <div className="grid w-full max-w-sm items-center gap-1">
         <Label htmlFor="name">Description</Label>
         <Textarea
+          name="description"
           className="bg-white"
           id="description"
           placeholder="Enter sector description/purpose"
@@ -225,6 +181,60 @@ export function SectorForm() {
       </div>
 
       <Button className="bg-violet-700">Add new sector</Button>
+    </form>
+  );
+}
+
+// edit sector form
+function EditSectorForm({ id }: { id: string }) {
+  // creation of new sector
+  async function handleEditSector(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const name = formData.get("updatedName");
+    const description = formData.get("updatedDescription");
+
+    const { data: updatedSector, error } = await supabase
+      .from("Sectors")
+      .update({ name: name, description: description })
+      .eq("id", id);
+
+    if (error) console.log(error);
+
+    console.log(updatedSector);
+    return updatedSector;
+  }
+
+  return (
+    <form
+      onSubmit={handleEditSector}
+      action=""
+      className="flex flex-col items-center justify-center gap-5 mt-8 "
+    >
+      {/* sector name */}
+      <div className="grid w-full max-w-sm items-center gap-1">
+        <Label htmlFor="name">Name</Label>
+        <Input
+          className="bg-white "
+          type="name"
+          id="name"
+          name="updatedName"
+          placeholder="Enter sector name"
+        />
+      </div>
+      {/* sector description */}
+      <div className="grid w-full max-w-sm items-center gap-1">
+        <Label htmlFor="name">Description</Label>
+        <Textarea
+          name="updatedDescription"
+          className="bg-white"
+          id="description"
+          placeholder="Enter sector description/purpose"
+        />
+      </div>
+
+      <Button className="bg-violet-700">Update sector</Button>
     </form>
   );
 }

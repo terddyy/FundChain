@@ -13,5 +13,16 @@ export interface Projects {
   targetFunds: number;
   status: "Approved" | "Pending" | "Rejected";
   currentFunds: number;
-  votes : number
+  votes: number;
+}
+
+export interface SectorProps {
+  created_at?: string;
+  id?: string;
+  
+  description: string;
+  funds: null;
+  name: string;
+  projects: null;
+  votes: null;
 }
