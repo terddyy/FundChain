@@ -36,8 +36,8 @@ interface Props {
 interface ProjectCardProps {
   title: string;
   description: string;
-  targetFunds: number;
-  currentFunds: number;
+  tFunds: number;
+  cFunds: number;
   sector: string;
 }
 
@@ -101,8 +101,8 @@ const UserProjectsList = () => {
                 key={index}
                 title={project.name}
                 description={project.description}
-                targetFunds={project.targetFunds}
-                currentFunds={project.currentFunds}
+                tFunds={project.targetFunds}
+                cFunds={project.currentFunds}
                 sector={project.sector.name}
               />
             );
@@ -118,11 +118,15 @@ export default UserProjectsList;
 export function ProjectCard({
   title,
   description,
-  targetFunds,
-  currentFunds,
+  tFunds,
+  cFunds,
   sector,
 }: ProjectCardProps) {
   console.log(sector);
+
+  const currentFunds = cFunds ?? 0;
+  const targetFunds = tFunds ?? 0;
+
   return (
     <div className=" w-full max-w-sm ">
       {/* image */}

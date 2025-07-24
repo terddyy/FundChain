@@ -18,12 +18,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useSWR from "swr";
 import { fetcher, projectFetcher } from "@/lib/db/supabaseFetcher";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 interface Props {
   projects: Promise<Projects[]>;
 }
 
 interface ProjectCardProps {
+  mutate?: () => void;
+  id: string;
   title: string;
   status: string;
   votes: number;
@@ -69,6 +72,8 @@ const AdminProjectList = () => {
           )
           .map((p, index) => (
             <ProjectCard
+              mutate={mutate}
+              id={p.id}
               key={index}
               sector={p.sector.name}
               title={p.name}
@@ -116,14 +121,25 @@ export function DropdownStatus({ value, setter }: DropDownProps) {
 }
 
 export function ProjectCard({
+  id,
   title,
   status,
   votes,
   funds,
   sector,
+  mutate,
 }: ProjectCardProps) {
+  async function handleEditStatus(value: string) {
+    const { data, error } = await supabase
+      .from("Projects")
+      .update({ status: value })
+      .eq("id", id);
 
-  console.log(status);
+    if (error) throw error;
+
+    mutate!();
+  }
+
   return (
     <div className="bg-grayish-blue border border-gray-700 p-4 rounded-xl grid grid-cols-3 grid-rows-[_repeat(1,_minmax(70px,80px))] gap-2 w-full max-w-lg full space-x-5">
       {/* title */}
@@ -131,11 +147,33 @@ export function ProjectCard({
 
       {/* actions */}
       <div className="space-x-2 ml-auto flex items-start justify-center text-gray-500">
-        <Edit2Icon
-          className="cursor-pointer  hover:text-gray-200"
-          width={20}
-          height={20}
-        />
+
+        {/* approved reject a project */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Edit2Icon
+              className="cursor-pointer  hover:text-gray-200"
+              width={20}
+              height={20}
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 bg-grayish-blue text-gray-300 p-2 rounded-md">
+            <DropdownMenuLabel>Select Sector</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              onValueChange={(value) => handleEditStatus(value)}
+            >
+              <DropdownMenuRadioItem value={"approved"}>
+                Approved
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value={"rejected"}>
+                Reject
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* delete project */}
         <Trash2
           className="cursor-pointer hover:text-gray-200"
           width={20}
@@ -156,7 +194,9 @@ export function ProjectCard({
         >
           {status}
         </h5>
-        <h5 className="text-gray-300">{votes ? votes.toLocaleString() :0} votes</h5>
+        <h5 className="text-gray-300">
+          {votes ? votes.toLocaleString() : 0} votes
+        </h5>
         <h5 className="text-violet-400">${funds ? funds : 0}</h5>
         <h5 className="text-gray-300 ml-auto">{sector}</h5>
       </div>
