@@ -4,10 +4,9 @@ import { getProjects } from "@/lib/getProjects";
 import { Suspense } from "react";
 
 const page = () => {
-  const projects = getProjects();
   return (
     <Suspense fallback={<SkeletonCard quantity={10} />}>
-      <UserProjectsList projects={projects} />
+      <UserProjectsList />
     </Suspense>
   );
 };

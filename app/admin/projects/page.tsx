@@ -9,7 +9,7 @@ const page = () => {
   return (
     <section className="p-8">
       <Suspense fallback={<AdminProjectListSkeleton quantity={10}/>}>
-        <AdminProjectList projects={projects} />
+        <AdminProjectList />
       </Suspense>
     </section>
   );

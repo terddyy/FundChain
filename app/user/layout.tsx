@@ -15,9 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <AuthProvider role="user">
-      <main className={`${poppins.className} bg-dark-violet antialiased h-[100vh]`}>
+      <main
+        className={`${poppins.className} bg-dark-violet antialiased h-[100vh]`}
+      >
         <UserNav />
-        {children}
+
+        <section className="p-8">{children}</section>
       </main>
     </AuthProvider>
   );

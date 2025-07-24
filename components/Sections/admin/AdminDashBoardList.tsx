@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import {
   Users,
@@ -6,6 +7,8 @@ import {
   DollarSign,
   LucideIcon,
 } from "lucide-react";
+import useSWR from "swr";
+import { fetcher } from "@/lib/db/supabaseFetcher";
 
 // sample data
 const stats = [
@@ -43,7 +46,14 @@ interface StatCardProps {
 }
 
 const AdminDashBoardList = () => {
-  
+  const {
+    data: projectss,
+    error,
+    mutate,
+  } = useSWR("Projects", fetcher, { suspense: true });
+
+  console.log(projectss);
+
   return (
     <section className="">
       {/* dashboard cards */}

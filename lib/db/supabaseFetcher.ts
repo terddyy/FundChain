@@ -7,3 +7,14 @@ export const fetcher = async (table: string) => {
 
   return data;
 };
+
+export const projectFetcher = async (table: string) => {
+  const { data, error } = await supabase.from(table).select(`*,
+      sector(
+      name)
+    `);
+
+  if (error) throw error;
+
+  return data;
+};

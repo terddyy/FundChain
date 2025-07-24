@@ -1,5 +1,5 @@
 "use client";
-import { Projects } from "@/lib/interfaces";
+import { DropDownProps, Projects } from "@/lib/interfaces";
 import React, { use, useState } from "react";
 
 import { handleChange } from "@/lib/getIndicatory";
@@ -16,14 +16,11 @@ import {
 import { Edit2Icon, FilterIcon, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useSWR from "swr";
+import { fetcher, projectFetcher } from "@/lib/db/supabaseFetcher";
 
 interface Props {
   projects: Promise<Projects[]>;
-}
-
-interface DropDownProps {
-  status: string;
-  setStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface ProjectCardProps {
@@ -34,8 +31,14 @@ interface ProjectCardProps {
   sector: string;
 }
 
-const AdminProjectList = ({ projects }: Props) => {
-  const allProjects = use(projects);
+const AdminProjectList = () => {
+  const {
+    data: allProjects,
+    error,
+    mutate,
+  } = useSWR("Projects", projectFetcher, { suspense: true });
+
+  console.log(allProjects);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -52,14 +55,14 @@ const AdminProjectList = ({ projects }: Props) => {
             placeholder="Search Projects.."
             onChange={(e) => handleChange(e, setSearch)}
           />
-          <DropdownStatus status={status} setStatus={setStatus} />
+          <DropdownStatus value={status} setter={setStatus} />
         </div>
       </div>
 
       <div className="flex flex-wrap gap-4 items-center justify-center mt-10">
         {allProjects
           .filter((p) =>
-            search ? p.title.toLowerCase().includes(search.toLowerCase()) : p
+            search ? p.name.toLowerCase().includes(search.toLowerCase()) : p
           )
           .filter((p) =>
             status ? status.toLowerCase() === p.status.toLowerCase() : p
@@ -67,11 +70,11 @@ const AdminProjectList = ({ projects }: Props) => {
           .map((p, index) => (
             <ProjectCard
               key={index}
-              sector={p.sector}
-              title={p.title}
+              sector={p.sector.name}
+              title={p.name}
               status={p.status}
               votes={p.votes}
-              funds={p.currentFunds}
+              funds={p.funds}
             />
           ))}
       </div>
@@ -81,7 +84,7 @@ const AdminProjectList = ({ projects }: Props) => {
 
 export default AdminProjectList;
 
-export function DropdownStatus({ status, setStatus }: DropDownProps) {
+export function DropdownStatus({ value, setter }: DropDownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-violet-600" asChild>
@@ -94,9 +97,9 @@ export function DropdownStatus({ status, setStatus }: DropDownProps) {
         <DropdownMenuLabel>Status</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup
-          value={status}
+          value={value}
           onValueChange={(item) =>
-            setStatus((prev) => (prev === item ? "" : item))
+            setter((prev) => (prev === item ? "" : item))
           }
         >
           <DropdownMenuRadioItem value="Pending">Pending</DropdownMenuRadioItem>
@@ -119,6 +122,8 @@ export function ProjectCard({
   funds,
   sector,
 }: ProjectCardProps) {
+
+  console.log(status);
   return (
     <div className="bg-grayish-blue border border-gray-700 p-4 rounded-xl grid grid-cols-3 grid-rows-[_repeat(1,_minmax(70px,80px))] gap-2 w-full max-w-lg full space-x-5">
       {/* title */}
@@ -142,18 +147,18 @@ export function ProjectCard({
       <div className="space-x-2 flex items-center text-sm col-span-3">
         <h5
           className={`w-fit px-2 py-1 rounded-xl ${
-            status === "Approved"
+            status === "approved"
               ? "bg-green-600/40 text-green-500"
-              : status === "Pending"
+              : status === "pending"
               ? "bg-yellow-600/30 text-yellow-500"
               : "bg-red-600/30 text-red-500"
           }`}
         >
           {status}
         </h5>
-        <h5 className="text-gray-300">{votes.toLocaleString()} votes</h5>
-        <h5 className="text-violet-400">${funds}</h5>
-        {/* <h5 className="text-gray-300 ml-auto">{sector}</h5> */}
+        <h5 className="text-gray-300">{votes ? votes.toLocaleString() :0} votes</h5>
+        <h5 className="text-violet-400">${funds ? funds : 0}</h5>
+        <h5 className="text-gray-300 ml-auto">{sector}</h5>
       </div>
     </div>
   );

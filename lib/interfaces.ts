@@ -19,10 +19,15 @@ export interface Projects {
 export interface SectorProps {
   created_at?: string;
   id?: string;
-  
+
   description: string;
   funds: null;
   name: string;
   projects: null;
   votes: null;
+}
+
+export interface DropDownProps {
+  value: string;
+  setter: React.Dispatch<React.SetStateAction<string>>;
 }
