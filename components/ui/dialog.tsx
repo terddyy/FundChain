@@ -5,6 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 function Dialog({
   ...props
@@ -13,13 +14,17 @@ function Dialog({
 }
 
 function DialogTrigger({
+  className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return (
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
       {...props}
-      className="text-white text-sm items-center cursor-pointer px-2 py-1 rounded-md flex gap-2"
+      className={clsx(
+        "text-white text-sm items-center cursor-pointer px-2 py-1 rounded-md flex gap-2",
+        className
+      )}
     />
   );
 }

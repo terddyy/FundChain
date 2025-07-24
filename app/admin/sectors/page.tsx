@@ -1,15 +1,17 @@
 import AdminSectorList from "@/components/Sections/admin/AdminSectorList";
+import AdminSectorLIstSkeleton from "@/components/Skeletons/AdminSectorLIstSkeleton";
 import { getSectors } from "@/lib/db/sectors";
+import { fetcher } from "@/lib/db/supabaseFetcher";
 import { SectorProps } from "@/lib/interfaces";
 import React, { Suspense } from "react";
+import useSWR from "swr";
 
 const page = () => {
-  const sectors = getSectors();
 
   return (
     <section className="p-8">
-      <Suspense>
-        <AdminSectorList sectorList={sectors} />
+      <Suspense fallback={<AdminSectorLIstSkeleton quantity={10} />}>
+        <AdminSectorList />
       </Suspense>
     </section>
   );

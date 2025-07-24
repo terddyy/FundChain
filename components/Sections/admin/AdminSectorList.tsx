@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { handleChange } from "@/lib/getIndicatory";
-import React, { use, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Edit2Icon, Plus, Trash2 } from "lucide-react";
 import {
   Dialog,
@@ -17,15 +17,21 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase/supabaseClient";
 import { SectorProps } from "@/lib/interfaces";
 import { DialogClose } from "@radix-ui/react-dialog";
+import useSWR, { mutate } from "swr";
+import { fetcher } from "@/lib/db/supabaseFetcher";
 
 interface Props {
-  sectorList: Promise<SectorProps[]>;
+  sectorList: SectorProps[];
 }
 
-const AdminSectorList = ({ sectorList }: Props) => {
+export default function AdminSectorList() {
   const [search, setSearch] = useState("");
 
-  const sectors = use(sectorList);
+  const { data: sectors, mutate } = useSWR<SectorProps[]>("Sectors", fetcher, {
+    suspense: true,
+  });
+
+  const closeRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <div>
@@ -36,14 +42,15 @@ const AdminSectorList = ({ sectorList }: Props) => {
         <div className="flex gap-2">
           {/* dialog add sector form */}
           <Dialog>
-            <DialogTrigger className="bg-violet-600">
+            <DialogTrigger className="bg-violet-600 text-black">
               Add Sector <Plus />
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Add new sector</DialogTitle>
               </DialogHeader>
-              <CreateSectorForm />
+              <CreateSectorForm closeRef={closeRef} mutate={mutate} />
+              <DialogClose ref={closeRef} className="hidden" />
             </DialogContent>
           </Dialog>
 
@@ -60,24 +67,30 @@ const AdminSectorList = ({ sectorList }: Props) => {
 
       {/* sector list */}
       <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
-        {sectors
+        {sectors!
           .filter((s) =>
             search ? s.name.toLowerCase().includes(search.toLowerCase()) : s
           )
           .map((sector, index) => (
-            <SectorCard key={index} sector={sector} />
+            <SectorCard mutate={mutate} key={index} sector={sector} />
           ))}
       </div>
     </div>
   );
-};
-
-export default AdminSectorList;
+}
 
 // Sector card
-export function SectorCard({ sector }: { sector: SectorProps }) {
+export function SectorCard({
+  sector,
+  mutate,
+}: {
+  sector: SectorProps;
+  mutate: () => void;
+}) {
   const { created_at, id, description, funds, name, projects, votes } = sector;
+  const closeRef = useRef<HTMLButtonElement | null>(null);
 
+  // handles deletion of secrtor
   async function deleteSector(id: string) {
     const { data: deletedSector, error } = await supabase
       .from("Sectors")
@@ -86,7 +99,8 @@ export function SectorCard({ sector }: { sector: SectorProps }) {
 
     if (error) throw error;
 
-    window.location.reload()
+    //reloads the fetcher
+    mutate();
   }
 
   return (
@@ -104,7 +118,14 @@ export function SectorCard({ sector }: { sector: SectorProps }) {
             <DialogHeader>
               <DialogTitle>Edit sector</DialogTitle>
             </DialogHeader>
-            <EditSectorForm id={id as string} />
+            <EditSectorForm
+              id={id as string}
+              mutate={mutate}
+              closeRef={closeRef}
+            />
+            <DialogClose asChild>
+              <button ref={closeRef} className="hidden" />
+            </DialogClose>
           </DialogContent>
         </Dialog>
 
@@ -119,14 +140,14 @@ export function SectorCard({ sector }: { sector: SectorProps }) {
       <div className="col-start-1 flex gap-2 col-span-3">
         <h2 className="col-start-1 text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Projects: </span>
-          {projects}
+          {projects ? projects : 0}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Votes: </span>
-          {votes}
+          {votes ? votes : 0}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
-          <span className="text-gray-200">Funds: </span>${funds}
+          <span className="text-gray-200">Funds: </span>${funds ? funds : 0}
         </h2>
       </div>
     </div>
@@ -134,10 +155,17 @@ export function SectorCard({ sector }: { sector: SectorProps }) {
 }
 
 // create sector form
-function CreateSectorForm() {
+function CreateSectorForm({
+  mutate,
+  closeRef,
+}: {
+  mutate: () => void;
+  closeRef: React.RefObject<HTMLButtonElement | null>;
+}) {
   // creation of new sector
   async function handleCreateSector(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
 
     const name = formData.get("name");
@@ -148,6 +176,10 @@ function CreateSectorForm() {
       .insert({ name, description });
 
     if (error) throw error;
+
+    //reloads the fetcher
+    mutate();
+    closeRef?.current?.click();
 
     return newSector;
   }
@@ -162,6 +194,7 @@ function CreateSectorForm() {
       <div className="grid w-full max-w-sm items-center gap-1">
         <Label htmlFor="name">Name</Label>
         <Input
+          required
           className="bg-white "
           type="name"
           id="name"
@@ -173,6 +206,7 @@ function CreateSectorForm() {
       <div className="grid w-full max-w-sm items-center gap-1">
         <Label htmlFor="name">Description</Label>
         <Textarea
+          required
           name="description"
           className="bg-white"
           id="description"
@@ -186,7 +220,15 @@ function CreateSectorForm() {
 }
 
 // edit sector form
-function EditSectorForm({ id }: { id: string }) {
+function EditSectorForm({
+  id,
+  mutate,
+  closeRef,
+}: {
+  id: string;
+  mutate: () => void;
+  closeRef: React.RefObject<HTMLButtonElement | null>;
+}) {
   // creation of new sector
   async function handleEditSector(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -202,7 +244,9 @@ function EditSectorForm({ id }: { id: string }) {
 
     if (error) console.log(error);
 
-    console.log(updatedSector);
+    //reloads the fetcher
+    mutate();
+    closeRef?.current?.click();
     return updatedSector;
   }
 
@@ -216,6 +260,7 @@ function EditSectorForm({ id }: { id: string }) {
       <div className="grid w-full max-w-sm items-center gap-1">
         <Label htmlFor="name">Name</Label>
         <Input
+          required
           className="bg-white "
           type="name"
           id="name"
@@ -227,6 +272,7 @@ function EditSectorForm({ id }: { id: string }) {
       <div className="grid w-full max-w-sm items-center gap-1">
         <Label htmlFor="name">Description</Label>
         <Textarea
+          required
           name="updatedDescription"
           className="bg-white"
           id="description"
@@ -234,7 +280,7 @@ function EditSectorForm({ id }: { id: string }) {
         />
       </div>
 
-      <Button className="bg-violet-700">Update sector</Button>
+      <Button>Update sector</Button>
     </form>
   );
 }
