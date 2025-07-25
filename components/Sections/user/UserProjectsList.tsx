@@ -28,6 +28,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { supabase } from "@/lib/supabase/supabaseClient";
 import { useAuth } from "@/lib/Context/AuthContext";
+import { toast } from "sonner";
 
 interface Props {
   projects: Promise<Projects[]>;
@@ -44,8 +45,8 @@ interface ProjectCardProps {
 const UserProjectsList = () => {
   const [selectedSector, setSelectedSector] = useState("");
   const user = useAuth();
-  
-// fetcher
+
+  // fetcher
   const {
     data: allProjects = [],
     error,
@@ -55,8 +56,6 @@ const UserProjectsList = () => {
   const sectors = Array.from(new Set(allProjects.map((p) => p.sector.name)));
 
   const closeRef = useRef<HTMLButtonElement | null>(null);
-
-  console.log();
 
   return (
     <section>
@@ -82,7 +81,7 @@ const UserProjectsList = () => {
         <div className="w-full">
           <Dialog>
             <DialogTrigger
-              disabled={user.status === "normal" ? false : true }
+              disabled={user.status === "normal" ? false : true}
               asChild
               className="ml-auto bg-violet-600 px-3 py-2 font-medium cursor-pointer"
             >
@@ -185,10 +184,11 @@ export function ProjectCard({
 export function ProjectForm({
   mutate,
   closeRef,
-  id
+  id,
 }: {
   mutate: () => void;
-  closeRef: React.RefObject<HTMLButtonElement | null>; id: string;
+  closeRef: React.RefObject<HTMLButtonElement | null>;
+  id: string;
 }) {
   const [sector, setSector] = useState("");
 
@@ -213,6 +213,11 @@ export function ProjectForm({
     if (error) throw error;
 
     closeRef?.current?.click();
+
+    toast("Project was submitted.", {
+      description:
+        "Your project is pending. Project will be posted after approval.",
+    });
   }
 
   return (

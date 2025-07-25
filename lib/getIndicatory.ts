@@ -1,5 +1,6 @@
 import { GetIndicatorStyle } from "./interfaces";
 
+
 export function handleMove(
   e: React.MouseEvent<HTMLElement>,
   setter: React.Dispatch<React.SetStateAction<GetIndicatorStyle>>

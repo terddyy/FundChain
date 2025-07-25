@@ -1,7 +1,14 @@
 "use client";
 
 import { AppSidebar } from "@/components/ui/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { useContext, useState } from "react";
 import {
   BarChart,
@@ -16,9 +23,17 @@ import {
   Vote,
   Bell,
   CircleUser,
+  ChevronUp,
+  User2,
 } from "lucide-react";
 import AuthProvider, { useAuth } from "@/lib/Context/AuthContext";
 import { usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 
 const sidebarItems = [
   { url: "/admin", label: "Dashboard", icon: BarChart },
@@ -36,12 +51,12 @@ const sidebarItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-  
+
   const pathName = path.split("/");
-  const lastIndex = `${pathName[pathName.length - 1].slice(0,1).toUpperCase()}${pathName[pathName.length - 1].slice((1))}`;
+  const lastIndex = `${pathName[pathName.length - 1]
+    .slice(0, 1)
+    .toUpperCase()}${pathName[pathName.length - 1].slice(1)}`;
   const [activeTab, setActiveTab] = useState(lastIndex);
-
-
 
   return (
     <AuthProvider role={"admin"}>
@@ -68,6 +83,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </header>
           {children}
         </main>
+
       </SidebarProvider>
     </AuthProvider>
   );

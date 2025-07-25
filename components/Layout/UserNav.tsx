@@ -5,6 +5,15 @@ import Link from "next/link";
 import { handleMove } from "@/lib/getIndicatory";
 import { usePathname } from "next/navigation";
 import { GetIndicatorStyle } from "@/lib/interfaces";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
+
+import { DropdownMenuRadioGroup } from "../ui/dropdown-menu";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 const UserNav = () => {
   const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({
@@ -28,11 +37,48 @@ const UserNav = () => {
     }
   }, [path]); // prevents hydration error
 
+async function handleSignOut() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Logout error:", error.message);
+      return;
+    }
+
+    window.location.href = "/auth";
+  }
+
   return (
     <nav className="text-white grid grid-cols-2 grid-rows-[repeat(2,_auto)] px-5 h-fit place-content-center py-4">
       <h1 className="text-2xl font-semibold">Hello, User</h1>
 
-      <CircleUser width={30} height={30} className=" justify-self-end" />
+      <div className="w-fit justify-self-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <CircleUser width={30} height={30} />
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            side="left"
+            className="bg-gray-800 mt-10 p-4 rounded-xl border-gray-600 border z-40 w-full space-y-1"
+          >
+            <DropdownMenuRadioGroup>
+              <DropdownMenuItem className="px-6 py-2 rounded-md w-full ">
+                Account
+              </DropdownMenuItem>
+              <DropdownMenuItem className="px-6 py-2  rounded-md w-full ">
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleSignOut}
+                className="px-6 py-2  rounded-md w-full "
+              >
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <div className="relative flex items-center justify-center text-white gap-1 bg-violet rounded-lg col-span-2 w-fit px-2 justify-self-center p-2 mt-10 md:justify-self-end">
         <span

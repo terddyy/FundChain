@@ -1,4 +1,5 @@
 import UserNav from "@/components/Layout/UserNav";
+import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/lib/Context/AuthContext";
 import { Poppins } from "next/font/google";
 
@@ -21,6 +22,9 @@ export default function RootLayout({
         <UserNav />
 
         <section className="p-8">{children}</section>
+
+        {/* toaster notif */}
+        <Toaster className="bg-gray-900" />
       </main>
     </AuthProvider>
   );

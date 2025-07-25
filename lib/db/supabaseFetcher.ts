@@ -1,3 +1,4 @@
+
 import { supabase } from "../supabase/supabaseClient";
 
 // general fetcher
@@ -23,6 +24,7 @@ export const projectFetcher = async (table: string) => {
 
 // User fetcher for admin list
 export const adminUserFetcher = async () => {
+
   const { data: users, error } = await supabase
     .from("Users")
     .select("id, name, email,Projects(id, name), Funds(id), Votes(id), status")
