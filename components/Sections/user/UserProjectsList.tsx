@@ -43,7 +43,9 @@ interface ProjectCardProps {
 
 const UserProjectsList = () => {
   const [selectedSector, setSelectedSector] = useState("");
-
+  const user = useAuth();
+  
+// fetcher
   const {
     data: allProjects = [],
     error,
@@ -53,6 +55,8 @@ const UserProjectsList = () => {
   const sectors = Array.from(new Set(allProjects.map((p) => p.sector.name)));
 
   const closeRef = useRef<HTMLButtonElement | null>(null);
+
+  console.log();
 
   return (
     <section>
@@ -77,15 +81,21 @@ const UserProjectsList = () => {
       <div className="flex flex-wrap items-center justify-center  mt-10 gap-4">
         <div className="w-full">
           <Dialog>
-            <DialogTrigger className="ml-auto bg-violet-600 px-3 py-2 font-medium cursor-pointer">
-              Submit Project <FolderDot />
+            <DialogTrigger
+              disabled={user.status === "normal" ? false : true }
+              asChild
+              className="ml-auto bg-violet-600 px-3 py-2 font-medium cursor-pointer"
+            >
+              <Button>
+                Submit Project <FolderDot />
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Submit Project</DialogTitle>
               </DialogHeader>
 
-              <ProjectForm mutate={mutate} closeRef={closeRef} />
+              <ProjectForm id={user.id} mutate={mutate} closeRef={closeRef} />
               <DialogClose ref={closeRef} className="hidden" />
             </DialogContent>
           </Dialog>
@@ -175,12 +185,14 @@ export function ProjectCard({
 export function ProjectForm({
   mutate,
   closeRef,
+  id
 }: {
   mutate: () => void;
-  closeRef: React.RefObject<HTMLButtonElement | null>;
+  closeRef: React.RefObject<HTMLButtonElement | null>; id: string;
 }) {
-  const user = useAuth();
   const [sector, setSector] = useState("");
+
+  console.log(id);
 
   async function handleSubmitProject(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -195,7 +207,7 @@ export function ProjectForm({
       description: description,
       targetFunds: funds,
       sector: sector,
-      userId: user.id,
+      userId: id,
     });
 
     if (error) throw error;

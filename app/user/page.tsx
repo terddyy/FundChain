@@ -1,11 +1,7 @@
-import { getUsers } from "@/lib/db/users";
 import React from "react";
 
 const page = async () => {
   // const data format
-
-  const users = await getUsers();
-  console.log(users);
 
   return (
     <main className="flex flex-wrap items-center justify-center gap-2 mt-10 p-10">

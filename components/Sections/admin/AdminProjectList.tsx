@@ -129,6 +129,7 @@ export function ProjectCard({
   sector,
   mutate,
 }: ProjectCardProps) {
+  
   async function handleEditStatus(value: string) {
     const { data, error } = await supabase
       .from("Projects")

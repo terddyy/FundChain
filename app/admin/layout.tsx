@@ -18,6 +18,7 @@ import {
   CircleUser,
 } from "lucide-react";
 import AuthProvider, { useAuth } from "@/lib/Context/AuthContext";
+import { usePathname } from "next/navigation";
 
 const sidebarItems = [
   { url: "/admin", label: "Dashboard", icon: BarChart },
@@ -34,7 +35,13 @@ const sidebarItems = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const path = usePathname();
+  
+  const pathName = path.split("/");
+  const lastIndex = `${pathName[pathName.length - 1].slice(0,1).toUpperCase()}${pathName[pathName.length - 1].slice((1))}`;
+  const [activeTab, setActiveTab] = useState(lastIndex);
+
+
 
   return (
     <AuthProvider role={"admin"}>

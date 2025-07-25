@@ -27,14 +27,10 @@ const LogInForm = () => {
 
       // gets the user id
       const userId = data.user?.id;
-      const userRole = data.user?.app_metadata['https://fundChain.com/claims'].role
+      // gets the user role in jwt
+      const userRole =
+        data.user?.app_metadata["https://fundChain.com/claims"].role;
 
-      // Fetch the user's role from your table
-      const { data: userRow, error: fetchError } = await supabase
-        .from("Users")
-        .select("role")
-        .eq("id", userId)
-      
 
       // sets role on jwt
       // const res = await fetch("/api/auth", {
@@ -45,9 +41,6 @@ const LogInForm = () => {
       //   },
       //   body: JSON.stringify({ userId, role: userRow?.role }),
       // });
-
-      console.log(data.session);
-      console.log(userRow);
 
       // redirect user
       if (userRole === "admin") {
