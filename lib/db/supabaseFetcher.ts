@@ -1,4 +1,3 @@
-
 import { supabase } from "../supabase/supabaseClient";
 
 // general fetcher
@@ -13,8 +12,8 @@ export const fetcher = async (table: string) => {
 // Project sector
 export const projectFetcher = async (table: string) => {
   const { data, error } = await supabase.from(table).select(`*,
-      sector(
-      name)
+        sector(id, name),
+        Votes!projectId(id, userId)
     `);
 
   if (error) throw error;
@@ -24,14 +23,12 @@ export const projectFetcher = async (table: string) => {
 
 // User fetcher for admin list
 export const adminUserFetcher = async () => {
-
   const { data: users, error } = await supabase
     .from("Users")
-    .select("id, name, email,Projects(id, name), Funds(id), Votes(id), status")
+    .select("id, name, email,Projects(id, name), Funds(id)")
     .eq("role", "user");
 
   if (error) throw error;
 
   return users;
 };
-  

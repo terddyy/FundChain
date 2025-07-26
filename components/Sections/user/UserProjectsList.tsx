@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { fetcher, projectFetcher } from "@/lib/db/supabaseFetcher";
 import { DropDownProps, Projects, SectorProps } from "@/lib/interfaces";
-import { ThumbsUp, BanknoteArrowUp, FolderDot } from "lucide-react";
+import {
+  ThumbsUp,
+  BanknoteArrowUp,
+  FolderDot,
+  ClockFading,
+  Vote,
+} from "lucide-react";
 import useSWR from "swr";
 import {
   Dialog,
@@ -35,11 +41,15 @@ interface Props {
 }
 
 interface ProjectCardProps {
+  votes: { id: string; userId: string }[];
+  mutate: () => void;
+  projectId: string;
+  userId: string;
   title: string;
   description: string;
   tFunds: number;
   cFunds: number;
-  sector: string;
+  sector: { id: string; name: string };
 }
 
 const UserProjectsList = () => {
@@ -56,6 +66,8 @@ const UserProjectsList = () => {
   const sectors = Array.from(new Set(allProjects.map((p) => p.sector.name)));
 
   const closeRef = useRef<HTMLButtonElement | null>(null);
+
+  console.log(allProjects);
 
   return (
     <section>
@@ -107,12 +119,16 @@ const UserProjectsList = () => {
             return (
               // project
               <ProjectCard
+                mutate={mutate}
+                votes={project.Votes}
+                userId={user.id}
+                projectId={project.id}
                 key={index}
                 title={project.name}
                 description={project.description}
                 tFunds={project.targetFunds}
                 cFunds={project.currentFunds}
-                sector={project.sector.name}
+                sector={project.sector}
               />
             );
           })}
@@ -130,11 +146,25 @@ export function ProjectCard({
   tFunds,
   cFunds,
   sector,
+  userId,
+  mutate,
+  projectId,
+  votes,
 }: ProjectCardProps) {
-  console.log(sector);
-
   const currentFunds = cFunds ?? 0;
   const targetFunds = tFunds ?? 0;
+  const sectorId = sector.id;
+  const userAlreadyVoted = votes.some((item) => item.userId === userId);
+
+  async function handleLike() {
+    const { data, error } = await supabase
+      .from("Votes")
+      .insert({ userId: userId, projectId: projectId, sector: sectorId });
+
+    if (error) throw error;
+
+    mutate();
+  }
 
   return (
     <div className=" w-full max-w-sm ">
@@ -149,7 +179,7 @@ export function ProjectCard({
 
         <div className="flex items-center justify-between mt-4">
           <h3 className="bg-violet/10 py-1 px-2 rounded-xl text-violet">
-            {sector}
+            {sector.name}
           </h3>
           <h3 className="text-violet">
             {currentFunds < targetFunds ? "Active" : "Inactive"}
@@ -167,13 +197,23 @@ export function ProjectCard({
           </div>
         </div>
         {/* actions */}
-        <div className="flex items-center justify-between gap-2 w-max">
-          <Button className="w-full">
-            <ThumbsUp /> Vote
-          </Button>
-          <Button className="w-full">
-            <BanknoteArrowUp /> Fund
-          </Button>
+        <div className="flex items-center justify-between gap-2 w-full">
+          <div className="w-full">
+            <Button
+              disabled={userAlreadyVoted}
+              onClick={handleLike}
+              className="w-full"
+            >
+              <ThumbsUp /> {userAlreadyVoted ? "Voted" : "Vote"} ({votes.length}
+              )
+            </Button>
+          </div>
+
+          <div className="w-full">
+            <Button className="w-full">
+              <BanknoteArrowUp /> Fund
+            </Button>
+          </div>
         </div>
       </div>
     </div>
