@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation";
 import { GetIndicatorStyle } from "./interfaces";
+import { supabase } from "./supabase/supabaseClient";
 
 
 export function handleMove(
@@ -21,3 +23,16 @@ export function handleChange<T extends HTMLInputElement | HTMLTextAreaElement>(
 
   setter(value);
 }
+
+
+
+ export  async function handleSignOut() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Logout error:", error.message);
+      return;
+    }
+
+    redirect("/auth");
+  }

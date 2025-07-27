@@ -1,10 +1,13 @@
 "use client";
-import { handleMove } from "@/lib/getIndicatory";
+import { handleMove } from "@/lib/helperFunctions";
 import { GetIndicatorStyle } from "@/lib/interfaces";
 import React, { useState } from "react";
 
 const LandingNav = () => {
-  const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({ left: 0, width: 5 });
+  const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({
+    left: 0,
+    width: 5,
+  });
 
   const navLinks = [
     { name: "Home", link: "#Home" },

@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { handleChange } from "@/lib/getIndicatory";
+import { handleChange } from "@/lib/helperFunctions";
 import React, { use, useRef, useState } from "react";
 import { Edit2Icon, Plus, Trash2 } from "lucide-react";
 import {

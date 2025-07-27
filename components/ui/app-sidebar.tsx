@@ -1,5 +1,3 @@
-
-
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { supabase } from "@/lib/supabase/supabaseClient";
+import { handleSignOut } from "@/lib/helperFunctions";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -42,17 +40,6 @@ interface Props {
 
 export function AppSidebar({ setActiveTab, activeTab, navLinks }: Props) {
   console.log(activeTab);
-
-  async function handleSignOut() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error("Logout error:", error.message);
-      return;
-    }
-
-    window.location.href = "/auth";
-  }
 
   return (
     <Sidebar className="border-r-gray-800 text-white">

@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { CircleUser } from "lucide-react";
 import Link from "next/link";
-import { handleMove } from "@/lib/getIndicatory";
-import { usePathname } from "next/navigation";
+import { handleMove, handleSignOut } from "@/lib/helperFunctions";
+import { redirect, usePathname } from "next/navigation";
 import { GetIndicatorStyle } from "@/lib/interfaces";
 import {
   DropdownMenu,
@@ -36,17 +36,6 @@ const UserNav = () => {
       setIndicatorStyle({ width: 105, left: 8, name: "Dashboard" });
     }
   }, [path]); // prevents hydration error
-
-async function handleSignOut() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error("Logout error:", error.message);
-      return;
-    }
-
-    window.location.href = "/auth";
-  }
 
   return (
     <nav className="text-white grid grid-cols-2 grid-rows-[repeat(2,_auto)] px-5 h-fit place-content-center py-4">

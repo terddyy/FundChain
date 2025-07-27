@@ -1,7 +1,7 @@
 "use client";
 import LogInForm from "@/components/Auth/LogInForm";
 import SignUpForm from "@/components/Auth/SignUpForm";
-import { handleMove } from "@/lib/getIndicatory";
+import { handleMove } from "@/lib/helperFunctions";
 import { GetIndicatorStyle } from "@/lib/interfaces";
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

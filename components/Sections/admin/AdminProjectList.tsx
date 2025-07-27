@@ -2,7 +2,7 @@
 import { DropDownProps, Projects } from "@/lib/interfaces";
 import React, { use, useState } from "react";
 
-import { handleChange } from "@/lib/getIndicatory";
+import { handleChange } from "@/lib/helperFunctions";
 
 import {
   DropdownMenu,
@@ -129,7 +129,6 @@ export function ProjectCard({
   sector,
   mutate,
 }: ProjectCardProps) {
-  
   async function handleEditStatus(value: string) {
     const { data, error } = await supabase
       .from("Projects")
@@ -148,7 +147,6 @@ export function ProjectCard({
 
       {/* actions */}
       <div className="space-x-2 ml-auto flex items-start justify-center text-gray-500">
-
         {/* approved reject a project */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { handleChange } from "@/lib/getIndicatory";
+import { handleChange } from "@/lib/helperFunctions";
 import {
   Table,
   TableBody,
@@ -37,13 +37,13 @@ const AdminUsersList = () => {
   async function updateUserStatus(value: string, id: string) {
     const { data, error } = await supabase
       .from("Users")
-      .update({ status : value })
+      .update({ status: value })
       .eq("id", id);
 
     if (error) throw error;
 
-    console.log(error,data, id, value);
-    mutate()
+    console.log(error, data, id, value);
+    mutate();
     return data;
   }
 
@@ -125,7 +125,9 @@ const AdminUsersList = () => {
                         <DropdownMenuLabel>User action</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup
-                          onValueChange={(value) => updateUserStatus(value, user.id)}
+                          onValueChange={(value) =>
+                            updateUserStatus(value, user.id)
+                          }
                         >
                           <DropdownMenuRadioItem value="restricted">
                             Restrict
