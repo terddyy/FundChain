@@ -1,19 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CircleUser } from "lucide-react";
 import Link from "next/link";
-import { handleMove, handleSignOut } from "@/lib/helperFunctions";
-import { redirect, usePathname } from "next/navigation";
+import { handleMove } from "@/lib/helperFunctions";
+import { usePathname } from "next/navigation";
 import { GetIndicatorStyle } from "@/lib/interfaces";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
 
-import { DropdownMenuRadioGroup } from "../ui/dropdown-menu";
-import { supabase } from "@/lib/supabase/supabaseClient";
+import UserSettings from "../Sections/UserSettings";
+import { useAuth } from "@/lib/Context/AuthContext";
 
 const UserNav = () => {
   const [indicatorStyle, setIndicatorStyle] = useState<GetIndicatorStyle>({
@@ -21,52 +14,15 @@ const UserNav = () => {
     width: 105,
     name: "Dasboard",
   });
-  const path = usePathname();
 
-  const [hasMounted, setHasMounted] = useState(false);
-
-  // gets existing sectors from the projects
-  useEffect(() => {
-    const pathName = path.split("/");
-    const lastIndex = pathName[pathName.length - 1];
-
-    if (lastIndex.toLowerCase() === "projects") {
-      setIndicatorStyle({ width: 79, left: 117, name: "Projects" });
-    } else {
-      setIndicatorStyle({ width: 105, left: 8, name: "Dashboard" });
-    }
-  }, [path]); // prevents hydration error
+  const user = useAuth()
 
   return (
     <nav className="text-white grid grid-cols-2 grid-rows-[repeat(2,_auto)] px-5 h-fit place-content-center py-4">
-      <h1 className="text-2xl font-semibold">Hello, User</h1>
+      <h1 className="text-2xl font-semibold">Hello, {user.name}</h1>
 
       <div className="w-fit justify-self-end">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <CircleUser width={30} height={30} />
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent
-            side="left"
-            className="bg-gray-800 mt-10 p-4 rounded-xl border-gray-600 border z-40 w-full space-y-1"
-          >
-            <DropdownMenuRadioGroup>
-              <DropdownMenuItem className="px-6 py-2 rounded-md w-full ">
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem className="px-6 py-2  rounded-md w-full ">
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={handleSignOut}
-                className="px-6 py-2  rounded-md w-full "
-              >
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UserSettings />
       </div>
 
       <div className="relative flex items-center justify-center text-white gap-1 bg-violet rounded-lg col-span-2 w-fit px-2 justify-self-center p-2 mt-10 md:justify-self-end">
@@ -94,3 +50,5 @@ const UserNav = () => {
 };
 
 export default UserNav;
+
+

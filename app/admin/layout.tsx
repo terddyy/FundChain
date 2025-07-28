@@ -34,6 +34,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
+import UserSettings from "@/components/Sections/UserSettings";
 
 const sidebarItems = [
   { url: "/admin", label: "Dashboard", icon: BarChart },
@@ -79,11 +80,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <Bell />
-            <CircleUser />
+            <UserSettings />
           </header>
           {children}
         </main>
-
       </SidebarProvider>
     </AuthProvider>
   );

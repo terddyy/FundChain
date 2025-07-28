@@ -9,20 +9,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { handleSignOut } from "@/lib/helperFunctions";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuRadioGroup,
-} from "@radix-ui/react-dropdown-menu";
-import {
-  ChartColumnIncreasing,
-  ChevronUp,
-  LucideIcon,
-  User2,
-} from "lucide-react";
+
+import { ChartColumnIncreasing, LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { SetStateAction } from "react";
 
@@ -75,43 +63,6 @@ export function AppSidebar({ setActiveTab, activeTab, navLinks }: Props) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarFooter className="h-10 pl-6 mt-auto hover:bg-violet-600/20 hover:text-gray-300 bg-violet-600/20 border-r-2 border-violet-500 text-violet-400 rounded-none">
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  className="bg-none hover:bg-transparent hover:text-white"
-                  asChild
-                >
-                  <SidebarMenuButton className="p-0">
-                    <User2 /> Username
-                    <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="left"
-                  className="bg-gray-800 mt-10 p-4 rounded-xl border-gray-600 border z-40 w-full space-y-1"
-                >
-                  <DropdownMenuRadioGroup>
-                    <DropdownMenuItem className="px-6 py-2 rounded-md w-full ">
-                      Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="px-6 py-2  rounded-md w-full ">
-                      Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={handleSignOut}
-                      className="px-6 py-2  rounded-md w-full "
-                    >
-                      Sign out
-                    </DropdownMenuItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
       </SidebarContent>
     </Sidebar>
   );
