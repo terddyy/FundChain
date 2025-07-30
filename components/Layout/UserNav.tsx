@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import Link from "next/link";
 import { handleMove } from "@/lib/helperFunctions";
-import { usePathname } from "next/navigation";
+
 import { GetIndicatorStyle } from "@/lib/interfaces";
 
 import UserSettings from "../Sections/UserSettings";

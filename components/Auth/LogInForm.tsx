@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 const LogInForm = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   // log in
   async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
@@ -24,6 +25,7 @@ const LogInForm = () => {
           email: email,
           password: password,
         });
+      setIsLoading(true);
 
       // gets the user id
       const userId = data.user?.id;
@@ -31,23 +33,13 @@ const LogInForm = () => {
       const userRole =
         data.user?.app_metadata["https://fundChain.com/claims"].role;
 
-
-      // sets role on jwt
-      // const res = await fetch("/api/auth", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json", // ✅ tells your API to respond with JSON
-      //     "Content-Type": "application/json", // ✅ you're sending JSON in the body
-      //   },
-      //   body: JSON.stringify({ userId, role: userRow?.role }),
-      // });
-
       // redirect user
-      if (userRole === "admin") {
-        router.push("admin");
-      } else if (userRole === "user") {
-        router.push("user");
+      if (userRole) {
+        router.push(userRole);
+      } else {
+        return <div className="text-white">Unknown role</div>;
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +79,7 @@ const LogInForm = () => {
         </div>
 
         <Button size={"lg"} className="w-3xs mx-auto bg-violet my-8">
-          Submit
+          {isLoading ? "Loading......" : "Submit"}
         </Button>
       </div>
     </form>

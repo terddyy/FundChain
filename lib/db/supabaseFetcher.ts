@@ -25,8 +25,21 @@ export const projectFetcher = async (table: string) => {
 export const adminUserFetcher = async () => {
   const { data: users, error } = await supabase
     .from("Users")
-    .select("id, name, email,Projects(id, name), Funds(id)")
+    .select("id, name, email, status,Projects(id, name), Funds(id),  Votes!userId(id, userId)")
     .eq("role", "user");
+
+  if (error) throw error;
+
+  return users;
+};
+
+
+// User fetcher for admin list
+export const adminSectorFetcher = async () => {
+  const { data: users, error } = await supabase
+    .from("Sectors")
+    .select("*, Projects(name), Votes(id)")
+    
 
   if (error) throw error;
 

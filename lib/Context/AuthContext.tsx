@@ -18,8 +18,15 @@ const AuthProvider = ({ children, role }: Props) => {
   useEffect(() => {
     // fetch user data
     const fetchUserData = async () => {
-      const { data: user, error } = await supabase.from("Users").select("*");
-      // .single();
+      const userEmail = (await supabase.auth.getSession()).data.session?.user
+        .email;
+
+      console.log(userEmail);
+      const { data: user, error } = await supabase
+        .from("Users")
+        .select("*")
+        .eq("email", userEmail)
+        .single();
 
       console.log();
 
@@ -29,10 +36,10 @@ const AuthProvider = ({ children, role }: Props) => {
         return;
       }
 
-      if (user?.[0].role !== role) {
+      if (user?.role !== role) {
         return router.push("/auth");
       }
-      setUserData(user[0]);
+      setUserData(user);
       setIsLoading(false);
     };
 

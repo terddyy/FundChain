@@ -62,17 +62,15 @@ const UserSettings = () => {
         >
           <DropdownMenuRadioGroup>
             <DropdownMenuItem
-              className="px-6 py-2 rounded-md w-full "
+              className="px-6 py-2 rounded-md w-full hover:bg-gray-800"
               onSelect={() => setOpen(true)}
             >
               Change credentials
             </DropdownMenuItem>
-            <DropdownMenuItem className="px-6 py-2  rounded-md w-full ">
-              Billing
-            </DropdownMenuItem>
+
             <DropdownMenuItem
               onClick={handleSignOut}
-              className="px-6 py-2  rounded-md w-full "
+              className="px-6 py-2  rounded-md w-full hover:bg-gray-800"
             >
               Sign out
             </DropdownMenuItem>
@@ -104,7 +102,6 @@ const UserSettings = () => {
                   required
                   id="name-1"
                   name="name"
-                  defaultValue={user.name}
                 />
               </div>
 
@@ -117,7 +114,6 @@ const UserSettings = () => {
                   id="password"
                   type="password"
                   name="password"
-                  defaultValue={user.password}
                 />
               </div>
             </div>

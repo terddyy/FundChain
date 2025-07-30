@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { handleChange } from "@/lib/helperFunctions";
 import React, { use, useRef, useState } from "react";
-import { Edit2Icon, Plus, Trash2 } from "lucide-react";
+import { Edit2Icon, Plus, Trash2, Vote } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,19 +17,23 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase/supabaseClient";
 import { SectorProps } from "@/lib/interfaces";
 import { DialogClose } from "@radix-ui/react-dialog";
-import useSWR, { mutate } from "swr";
-import { fetcher } from "@/lib/db/supabaseFetcher";
 
-interface Props {
-  sectorList: SectorProps[];
-}
+import { adminSectorFetcher } from "@/lib/db/supabaseFetcher";
+import useSWR from "swr";
 
 export default function AdminSectorList() {
   const [search, setSearch] = useState("");
 
-  const { data: sectors, mutate } = useSWR<SectorProps[]>("Sectors", fetcher, {
-    suspense: true,
-  });
+  // fetcher
+  const { data: sectors, mutate } = useSWR<SectorProps[]>(
+    "Sectors",
+    adminSectorFetcher,
+    {
+      suspense: true,
+    }
+  );
+
+  console.log(sectors);
 
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
@@ -87,8 +91,9 @@ export function SectorCard({
   sector: SectorProps;
   mutate: () => void;
 }) {
-  const { created_at, id, description, funds, name, projects, votes } = sector;
+  const { created_at, id, description, funds, name, Projects, Votes } = sector;
   const closeRef = useRef<HTMLButtonElement | null>(null);
+
 
   // handles deletion of secrtor
   async function deleteSector(id: string) {
@@ -140,11 +145,11 @@ export function SectorCard({
       <div className="col-start-1 flex gap-2 col-span-3">
         <h2 className="col-start-1 text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Projects: </span>
-          {projects ? projects : 0}
+          {Projects.length}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Votes: </span>
-          {votes ? votes : 0}
+          {Votes.length}
         </h2>
         <h2 className="text-violet-300 bg-violet-600/20 h-fit w-fit px-2 py-1 rounded-xl">
           <span className="text-gray-200">Funds: </span>${funds ? funds : 0}

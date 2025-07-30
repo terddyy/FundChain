@@ -20,14 +20,20 @@ export interface SectorProps {
   created_at?: string;
   id?: string;
 
+  Projects: { name: string }[];
+  Votes: { id: string }[];
   description: string;
   funds: null;
   name: string;
-  projects: null;
-  votes: null;
 }
 
 export interface DropDownProps {
   value: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  role: "admin" | "user";
 }

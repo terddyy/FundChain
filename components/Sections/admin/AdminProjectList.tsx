@@ -41,8 +41,6 @@ const AdminProjectList = () => {
     mutate,
   } = useSWR("Projects", projectFetcher, { suspense: true });
 
-  console.log(allProjects);
-
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   return (

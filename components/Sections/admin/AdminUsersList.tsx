@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis, Eye, FilterIcon, OctagonMinus } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import useSWR from "swr";
 import { adminUserFetcher } from "@/lib/db/supabaseFetcher";
@@ -42,10 +42,11 @@ const AdminUsersList = () => {
 
     if (error) throw error;
 
-    console.log(error, data, id, value);
+    
     mutate();
     return data;
   }
+
 
   return (
     <div>
