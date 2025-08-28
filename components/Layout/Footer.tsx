@@ -1,3 +1,5 @@
+import { Zap, Github, Twitter, MessageCircle } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
@@ -31,30 +33,121 @@ const Footer = () => {
     },
   ];
 
-
   return (
-    <footer className="bg-white/10 opacity-90 p-4 md:p-10 text-white flex flex-col items-center gap-3 md:grid grid-cols-2">
-      <h1 className="text-3xl md:text-4xl font-bold my-5 md:text-center ">FundChain</h1>
-
-      <div className="grid grid-cols-2 gap-2">
-        {footerSections.map((item, index) => (
-          <div key={index}>
-            <h1 className="text-lg font-semibold">{item.title}</h1>
-            <div className="flex flex-col">
-              {item.links.map((item, index) => (
-                <a key={index} href="#" className="text-sm text-white/70 pl-1 hover:text-white">
-                  {item}
-                </a>
-              ))}
+    <footer className="bg-surface border-t border-border">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Zap className="w-6 h-6 text-primary" />
+              <span className="text-lg font-bold text-gradient">FundChain</span>
+            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Empowering innovation through decentralized funding. Building the
+              future, one project at a time.
+            </p>
+            <div className="flex space-x-4">
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Discord"
+              >
+                <MessageCircle className="w-5 h-5" />
+              </a>
             </div>
           </div>
-        ))}
-      </div>
 
-      <p className="text-white/80 text-xs text-center mt-10 col-span-2">
-        © 2025 FundChain. All rights reserved. · Privacy Policy · Terms of
-        Service
-      </p>
+          {/* Platform */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-foreground">Platform</h3>
+            <ul className="space-y-2">
+              {[
+                { href: "/projects", label: "Explore Projects" },
+                { href: "/sectors", label: "Browse Sectors" },
+                { href: "/propose", label: "Propose Project" },
+                { href: "/how-it-works", label: "How It Works" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-foreground">Resources</h3>
+            <ul className="space-y-2">
+              {[
+                { href: "/docs", label: "Documentation" },
+                { href: "/whitepaper", label: "Whitepaper" },
+                { href: "/api", label: "API Reference" },
+                { href: "/community", label: "Community" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-foreground">Legal</h3>
+            <ul className="space-y-2">
+              {[
+                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/terms", label: "Terms of Service" },
+                { href: "/security", label: "Security" },
+                { href: "/support", label: "Support" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-border">
+        
+            <p className="text-muted-foreground text-sm text-center">
+              © {new Date().getFullYear()} FundChain. All rights reserved.
+            </p>
+        
+       
+        </div>
+      </div>
     </footer>
   );
 };

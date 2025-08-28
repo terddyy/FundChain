@@ -20,6 +20,12 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+          // FundChain custom variants
+        hero: "gradient-primary text-primary-foreground font-semibold glow-primary hover:scale-105 transition-all duration-300",
+        neon: "bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-glow glow-primary",
+        cyber: "bg-surface border border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-surface transition-all duration-300 glow",
+        fund: "gradient-primary text-primary-foreground font-medium hover:shadow-glow transition-all duration-300",
+        vote: "bg-surface-glow border border-neon-purple/30 text-neon-purple hover:border-neon-purple hover:text-neon-purple transition-all duration-300"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
