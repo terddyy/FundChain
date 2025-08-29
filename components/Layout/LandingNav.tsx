@@ -2,20 +2,18 @@
 import { handleMove } from "@/lib/helperFunctions";
 import { GetIndicatorStyle } from "@/lib/interfaces";
 import { AnimatePresence, motion } from "framer-motion";
-import {  Zap, X, Menu } from "lucide-react";
+import { Zap, X, Menu } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LandingNav = () => {
- const location = usePathname();
+  const location = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Sign in" },
-    { href: "/asd", label: "Sign Up" },
- 
+    { href: "/auth/sign-in", label: "Sign in" },
   ];
 
   const isActive = (path: string) => location === path;
@@ -56,9 +54,11 @@ const LandingNav = () => {
                 )}
               </Link>
             ))}
-            <Button variant="neon" size="sm">
-              Connect Wallet
-            </Button>
+            <Link href={"/auth"}>
+              <Button variant="neon" size="sm">
+                Sign Up
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -69,7 +69,11 @@ const LandingNav = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-foreground hover:text-primary"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
