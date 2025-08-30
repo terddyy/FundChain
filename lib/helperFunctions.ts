@@ -26,13 +26,3 @@ export function handleChange<T extends HTMLInputElement | HTMLTextAreaElement>(
 
 
 
- export  async function handleSignOut() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error("Logout error:", error.message);
-      return;
-    }
-
-    redirect("/auth");
-  }

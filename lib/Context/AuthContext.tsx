@@ -1,62 +1,81 @@
 "use client";
-import React from "react";
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../supabase/supabaseClient";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
-interface Props {
-  children: React.ReactNode;
-  role: "admin" | "user";
+import { toast } from "sonner";
+import { supabase } from "../supabase/client";
+// import { createClient } from "../supabase/server";
+
+interface AuthContextType {
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  user: any;
+  isLoading: boolean;
 }
 
-export const AuthContext = createContext<any>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AuthProvider = ({ children, role }: Props) => {
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const [userData, setUserData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // fetch user data
-    const fetchUserData = async () => {
-      const userEmail = (await supabase.auth.getSession()).data.session?.user
-        .email;
+  // log in
+  async function login(email: string, password: string) {
+    setIsLoading(true);
+    // const supabase = await createClient();
 
-      console.log(userEmail);
-      const { data: user, error } = await supabase
-        .from("Users")
-        .select("*")
-        .eq("email", userEmail)
-        .single();
-
-      console.log();
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
       if (error) {
-        console.log(error.message);
-        router.push("/auth");
+        toast("Login failed", { description: error.message });
         return;
       }
 
-      if (user?.role !== role) {
-        return router.push("/auth");
+      setUser(data.user);
+
+      console.log(data.session);
+
+      const userRole =
+        data.user?.app_metadata["https://fundChain.com/claims"]?.role;
+
+      if (userRole) {
+        toast.success("Login successful", {
+          description: `Redirecting to ${userRole} dashboard...`,
+        });
+        router.push(`/${userRole}`);
+      } else {
+        toast.error("Unknown role", {
+          description: "Your account does not have a valid role assigned.",
+        });
       }
-      setUserData(user);
+    } catch (err) {
+      toast.error("Unexpected error", {
+        description: (err as Error).message,
+      });
+    } finally {
       setIsLoading(false);
-    };
+    }
+  }
 
-    fetchUserData();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
+  async function logout() {
+    // await supabase.auth.signOut();
+    setUser(null);
+    router.push("/login");
   }
 
   return (
-    <AuthContext.Provider value={userData}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ login, logout, user, isLoading }}>
+      {children}
+    </AuthContext.Provider>
   );
-};
-
-export default AuthProvider;
+}
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
 }
