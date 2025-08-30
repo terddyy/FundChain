@@ -24,8 +24,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/Context/AuthContext";
-import { supabase } from "@/lib/supabase/supabaseClient";
+
 import { mutate } from "swr";
+import { supabase } from "@/lib/supabase/supabaseServer";
 
 const UserSettings = () => {
   const [open, setOpen] = useState(false);
@@ -41,7 +42,7 @@ const UserSettings = () => {
     const { data, error } = await supabase
       .from("Users")
       .update({ name: newName, password: newPassword })
-      .eq("id", user.id);
+      .eq("id", "user.id");
 
     if (error) throw error;
 
