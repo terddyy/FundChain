@@ -50,13 +50,15 @@ export async function handleSignUp(currentState: unknown, formData: FormData) {
     const userData = signUpData.user;
     const { data, error } = await supabase
       .from("Users")
-      .insert([{ id: userData?.id, name: name, email: email }])
+      .insert([
+        { id: userData?.id, name: name, email: email, password: password },
+      ])
       .select();
 
     if (error) {
       return { message: "Error inserting to users table", success: false };
     } else {
-      return redirect("/auth/sign-in");
+      redirect("/auth/sign-in");
     }
   } catch (error) {
     console.log(error);

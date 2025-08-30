@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/lib/Context/AuthContext";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 import { motion } from "framer-motion";
 import { Zap, EyeOff, Eye, LogIn, ClockFading, CloudFog } from "lucide-react";
@@ -21,16 +21,52 @@ import { toast } from "sonner";
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const { login, isLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   // log in
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
+
     const formData = new FormData(e.currentTarget);
-    await login(
-      formData.get("email") as string,
-      formData.get("password") as string
-    );
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast("Login failed", {
+          description: error.message,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const userId = data.user?.id;
+      const userRole =
+        data.user?.app_metadata["https://fundChain.com/claims"]?.role;
+
+      if (userRole) {
+        toast.error("Login successful", {
+          description: `Redirecting to ${userRole} dashboard...`,
+        });
+        router.push(`/${userRole}`);
+      } else {
+        toast.error("Unknown role", {
+          description: "Your account does not have a valid role assigned.",
+        });
+      }
+    } catch (err) {
+      toast.error("Unexpected error", {
+        description: (err as Error).message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -62,7 +98,7 @@ const page = () => {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleLogIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
