@@ -13,6 +13,7 @@ export const fetcher = async (table: string) => {
 export const projectFetcher = async (table: string) => {
   const { data, error } = await supabase.from(table).select(`*,
         sector(id, name),
+        userId(id, name),
         Votes!projectId(id, userId)
     `);
 

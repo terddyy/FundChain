@@ -23,7 +23,7 @@ const UserProjectCard = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
     >
-      <Card className="card-glow hover:scale-105 transition-all duration-300 h-full">
+      <Card className="card-glow  hover:scale-105 transition-all duration-300 h-full">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between">
             <Badge variant="secondary" className="text-xs">
@@ -63,7 +63,7 @@ const UserProjectCard = ({
             <div className="text-center">
               <div className="flex items-center justify-center space-x-1">
                 <Vote className="h-3 w-3 text-primary" />
-                <span className="text-sm font-medium">{project.votes}</span>
+                <span className="text-sm font-medium">{project.Votes.length}</span>
               </div>
               <span className="text-xs text-muted-foreground">Votes</span>
             </div>
@@ -93,7 +93,7 @@ const UserProjectCard = ({
 
           {/* Actions */}
           <div className="flex space-x-2 pt-2">
-            <Button variant="vote" size="sm" className="flex-1">
+            <Button variant="vote" size="sm" className="flex-1 ">
               <Vote className="h-4 w-4 mr-2" />
               Vote
             </Button>
@@ -106,7 +106,7 @@ const UserProjectCard = ({
           {/* Project Details */}
           <div className="pt-2 border-t border-border/50">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>By {project.proposerName}</span>
+              <span>By {project.userId.name ?? ""}</span>
               <span>{formatDate(project.created_at)}</span>
             </div>
           </div>

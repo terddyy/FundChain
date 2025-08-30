@@ -16,6 +16,7 @@ html {
 
 @theme inline {
   --color-background: var(--background);
+  --color-neon-purple: var(--neon-purple);
   --color-foreground: var(--foreground);
   --color-dark-violet: var(--dark-violet);
   --color-grayish-blue: var(--grayish-blue);
@@ -58,79 +59,80 @@ html {
 }
 
 :root {
-  /* FundChain Sci-Fi Design System in OKLCH */
-  --background: oklch(0.16 0.02 266);
-  --foreground: oklch(0.97 0.01 237);
+  /* Core colors */
+  --background: hsl(220, 27%, 5%);
+  --foreground: hsl(210, 40%, 98%);
 
-  --card: oklch(0.2 0.02 266);
-  --card-foreground: oklch(0.97 0.01 237);
+  --card: hsl(220, 25%, 8%);
+  --card-foreground: hsl(210, 40%, 98%);
 
-  --popover: oklch(0.2 0.02 266);
-  --popover-foreground: oklch(0.97 0.01 237);
+  --popover: hsl(220, 25%, 8%);
+  --popover-foreground: hsl(210, 40%, 98%);
 
-  --primary: oklch(0.78 0.14 196);
-  --primary-foreground: oklch(0.16 0.02 266);
+  --primary: hsl(195, 100%, 65%);
+  --primary-foreground: hsl(220, 27%, 5%);
 
-  --secondary: oklch(0.62 0.23 305);
-  --secondary-foreground: oklch(0.97 0.01 237);
+  --secondary: hsl(271, 81%, 56%);
+  --secondary-foreground: hsl(210, 40%, 98%);
 
-  --muted: oklch(0.26 0.02 266);
-  --muted-foreground: oklch(0.7 0.07 236);
+  --muted: hsl(220, 20%, 15%);
+  --muted-foreground: hsl(215, 20%, 65%);
 
-  --accent: oklch(0.78 0.14 196);
-  --accent-foreground: oklch(0.16 0.02 266);
+  --accent: hsl(195, 100%, 65%);
+  --accent-foreground: hsl(220, 27%, 5%);
 
-  --destructive: oklch(0.63 0.24 29);
-  --destructive-foreground: oklch(0.97 0.01 237);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
 
-  --border: oklch(0.23 0.02 266);
-  --input: oklch(0.26 0.02 266);
-  --ring: oklch(0.78 0.14 196);
+  --border: hsl(220, 20%, 20%);
+  --input: hsl(220, 20%, 15%);
+  --ring: hsl(195, 100%, 65%);
 
   --radius: 0.75rem;
 
   /* Custom FundChain tokens */
-  --neon-cyan: oklch(0.78 0.14 196);
-  --neon-purple: oklch(0.62 0.23 305);
-  --neon-pink: oklch(0.72 0.26 342);
-  --dark-surface: oklch(0.2 0.02 266);
-  --darker-surface: oklch(0.16 0.02 266);
-  --surface-glow: oklch(0.22 0.02 266);
+  --neon-cyan: hsl(195, 100%, 65%);
+  --neon-purple: hsl(271, 81%, 56%);
+  --neon-pink: hsl(320, 100%, 70%);
+  --dark-surface: hsl(220, 25%, 8%);
+  --darker-surface: hsl(220, 27%, 5%);
+  --surface-glow: hsl(220, 20%, 12%);
 
   /* Gradients */
   --gradient-primary: linear-gradient(
     135deg,
-    oklch(0.78 0.14 196),
-    oklch(0.62 0.23 305)
+    hsl(195, 100%, 65%),
+    hsl(271, 81%, 56%)
   );
   --gradient-card: linear-gradient(
     145deg,
-    oklch(0.2 0.02 266),
-    oklch(0.22 0.02 266)
+    hsl(220, 25%, 8%),
+    hsl(220, 20%, 12%)
   );
   --gradient-hero: linear-gradient(
     180deg,
-    oklch(0.16 0.02 266),
-    oklch(0.2 0.02 266)
+    hsl(220, 27%, 5%),
+    hsl(220, 25%, 8%)
   );
 
   /* Shadows & Glows */
-  --glow-primary: 0 0 30px oklch(0.78 0.14 196 / 0.3);
-  --glow-secondary: 0 0 30px oklch(0.62 0.23 305 / 0.3);
-  --shadow-card: 0 10px 30px -5px oklch(0.16 0.02 266 / 0.3);
+  --glow-primary: 0 0 30px hsl(195, 100%, 65% / 0.3);
+  --glow-secondary: 0 0 30px hsl(271, 81%, 56% / 0.3);
+  --shadow-card: 0 10px 30px -5px hsl(220, 27%, 5% / 0.3);
 
   /* Animations */
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-glow: box-shadow 0.3s ease;
 
-  --sidebar-background: oklch(0.2 0.02 266);
-  --sidebar-foreground: oklch(0.97 0.01 237);
-  --sidebar-primary: oklch(0.78 0.14 196);
-  --sidebar-primary-foreground: oklch(0.16 0.02 266);
-  --sidebar-accent: oklch(0.26 0.02 266);
-  --sidebar-accent-foreground: oklch(0.97 0.01 237);
-  --sidebar-border: oklch(0.23 0.02 266);
-  --sidebar-ring: oklch(0.78 0.14 196);
+  /* Sidebar */
+  --sidebar-background: hsl(220, 25%, 8%);
+  --sidebar-foreground: hsl(210, 40%, 98%);
+  --sidebar-primary: hsl(195, 100%, 65%);
+  --sidebar-primary-foreground: hsl(220, 27%, 5%);
+  --sidebar-accent: hsl(220, 20%, 15%);
+  --sidebar-accent-foreground: hsl(210, 40%, 98%);
+  --sidebar-border: hsl(220, 20%, 20%);
+  --sidebar-ring: hsl(195, 100%, 65%);
 }
 
 .dark {
@@ -210,8 +212,12 @@ html {
   .animate-grid {
     animation: grid-move 20s linear infinite;
   }
-}
 
+  .shadow-glow {
+    box-shadow: 0 10px 30px -5px hsl(var(--background) / 0.3),
+      var(--glow-primary);
+  }
+}
 
 @layer utilities {
   .text-gradient {
@@ -234,20 +240,30 @@ html {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { 
+  0%,
+  100% {
     box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.2);
   }
-  50% { 
+  50% {
     box-shadow: 0 0 30px hsl(var(--neon-cyan) / 0.4);
   }
 }
 
 @keyframes grid-move {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-50px, -50px); }
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-50px, -50px);
+  }
 }
