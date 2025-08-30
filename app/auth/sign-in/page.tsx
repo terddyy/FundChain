@@ -9,28 +9,64 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/lib/Context/AuthContext";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 import { motion } from "framer-motion";
-import { Zap, EyeOff, Eye, LogIn } from "lucide-react";
+import { Zap, EyeOff, Eye, LogIn, ClockFading, CloudFog } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import React, { useActionState, useState } from "react";
+import { toast } from "sonner";
 
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const { isLoading, signIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   // log in
   async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    await signIn(email, password);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast("Login failed", {
+          description: error.message,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const userId = data.user?.id;
+      const userRole =
+        data.user?.app_metadata["https://fundChain.com/claims"]?.role;
+
+      if (userRole) {
+        toast.error("Login successful", {
+          description: `Redirecting to ${userRole} dashboard...`,
+        });
+        router.push(`/${userRole}`);
+      } else {
+        toast.error("Unknown role", {
+          description: "Your account does not have a valid role assigned.",
+        });
+      }
+    } catch (err) {
+      toast.error("Unexpected error", {
+        description: (err as Error).message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
