@@ -1,15 +1,15 @@
 "use client";
 import { handleSignUp } from "@/app/(actions)/Auth";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/app/components/ui/card";
+import { Input } from "@/app/components/ui/input";
+import { Label } from "@/app/components/ui/label";
 import { motion } from "framer-motion";
 import { Zap, EyeOff, Eye, UserPlus } from "lucide-react";
 import Link from "next/link";

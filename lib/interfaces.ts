@@ -7,13 +7,15 @@ export interface GetIndicatorStyle {
 }
 
 export interface Projects {
-  title: string;
+  name: string;
   description: string;
+  funds: string;
   sector: string;
   targetFunds: number;
   status: "Approved" | "Pending" | "Rejected";
   currentFunds: number;
-  votes: number;
+  votes: [];
+  created_at:Date
 }
 
 export interface SectorProps {
