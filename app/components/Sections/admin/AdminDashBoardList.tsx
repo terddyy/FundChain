@@ -86,19 +86,14 @@ const stats = [
   },
 ];
 
-interface StatCardProps {
-  title: string;
-  value: string;
-  subtext: string;
-  Icon: LucideIcon;
-}
+
 
 const AdminDashBoardList = () => {
   const {
     data: projectss,
     error,
     mutate,
-  } = useSWR("Projects", fetcher, { suspense: true });
+  } = useSWR("Projects", fetcher);
 
   console.log(projectss);
 
@@ -255,7 +250,7 @@ const AdminDashBoardList = () => {
                       <DialogTrigger asChild>
                         <Button variant="cyber">
                           <Plus className="w-4 h-4 mr-2" />
-                          Add Sector
+                          Add Sector 
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
