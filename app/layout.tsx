@@ -24,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className}bg-black antialiased`}>
+        
         <main className="flex-1 pt-16">{children}</main>
+
         <Toaster />
       </body>
     </html>

@@ -1,34 +1,38 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Zap, X, Menu } from "lucide-react";
+import { Zap, X, Menu, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/Context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
-interface NavLinks {
-  href: string;
-  label: string;
-  variant?: string;
-}
-
-interface NavProps {
-
-  navlinks: NavLinks[];
-}
-
-const Nav = ({ navlinks }: NavProps) => {
+const Nav = () => {
   const location = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useAuth();
 
-  // Filter nav items based on user role
+  const userNavLinks =
+    user.role === "user"
+      ? [
+          { href: "/user/projects", label: "Projects" },
+          { href: "/user/sectors", label: "Sectors" },
+          { href: "/user/propose", label: "Propose Project" },
+        ]
+      : [];
 
   // Add auth links only if user not logged in
   const navItems = user
-    ? navlinks
+    ? userNavLinks
     : [
         { href: "/auth/sign-in", label: "Sign in" },
         { href: "/auth/sign-up", label: "Sign Up", variant: "neon" },
@@ -50,7 +54,7 @@ const Nav = ({ navlinks }: NavProps) => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 ml-auto">
             {navItems.map((item, index) => (
               <Link
                 key={index}
@@ -74,21 +78,60 @@ const Nav = ({ navlinks }: NavProps) => {
             ))}
           </div>
 
+          {user && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full ml-auto"
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-primary/10 text-primary">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuItem className="flex flex-col items-start">
+                  <div className="font-medium">{user?.name}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {user?.email}
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="w-full cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-foreground hover:text-primary"
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </Button>
-          </div>
+          {navItems.length > 0 && (
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-foreground hover:text-primary"
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu */}

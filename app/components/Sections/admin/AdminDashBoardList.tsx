@@ -100,7 +100,7 @@ const AdminDashBoardList = () => {
     mutate,
   } = useSWR("Projects", fetcher);
 
-  console.log(projectss);
+  // console.log(projectss);
 
   return (
     <div className="min-h-screen py-8">
