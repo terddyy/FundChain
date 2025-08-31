@@ -179,44 +179,6 @@ html {
     background: var(--gradient-hero);
     min-height: 100vh;
   }
-
-  /* Custom utility classes */
-  .glow-primary {
-    box-shadow: var(--glow-primary);
-  }
-
-  .glow-secondary {
-    box-shadow: var(--glow-secondary);
-  }
-
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
-
-  .transition-glow {
-    transition: var(--transition-glow);
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  .animate-grid {
-    animation: grid-move 20s linear infinite;
-  }
-
-  .shadow-glow {
-    box-shadow: 0 10px 30px -5px hsl(var(--background) / 0.3),
-      var(--glow-primary);
-  }
 }
 
 @layer utilities {
@@ -233,9 +195,19 @@ html {
   }
 
   .card-glow {
-    background: var(--gradient-card);
-    border: 1px solid hsl(var(--border));
-    box-shadow: var(--shadow-card), 0 0 20px hsl(var(--neon-cyan) / 0.05);
+    @apply border shadow-md bg-[var(--gradient-card)]  shadow-[var(--shadow-card),0_0_20px_hsl(var(--neon-cyan)/0.05)];; 
+  }
+
+    .glow {
+    @apply shadow-[0_0_20px_hsl(var(--neon-cyan)/0.2)];
+  }
+
+  .shadow-glow {
+    @apply shadow-[0_10px_30px_-5px_hsl(var(--background)/0.3),var(--glow-primary)];
+  }
+
+  .surface {
+    @apply bg-[hsl(var(--dark-surface))];
   }
 }
 

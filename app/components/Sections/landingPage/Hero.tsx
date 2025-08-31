@@ -20,13 +20,13 @@ const Hero = () => {
           className="w-full h-full object-cover opacity-20"
           src={""}
         /> */}
-        {/* <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background"></div> */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background"></div>
       </div>
 
       {/* Animated Grid */}
-      {/* <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 bg-[length:50px_50px] bg-grid animate-grid"></div>
-      </div> */}
+      </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
