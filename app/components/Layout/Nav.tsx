@@ -15,11 +15,11 @@ interface NavLinks {
 }
 
 interface NavProps {
-  role?: string; // current user role
+
   navlinks: NavLinks[];
 }
 
-const Nav = ({ navlinks, role }: NavProps) => {
+const Nav = ({ navlinks }: NavProps) => {
   const location = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useAuth();

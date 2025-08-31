@@ -93,7 +93,7 @@ const UserProjectsList = () => {
         return 0;
     }
   });
-  console.log(sortedProjects);
+ 
   const sectors = Array.from(new Set(allProjects.map((p) => p.sector.name)));
 
   return (

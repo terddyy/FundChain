@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import AuthProvider from "@/lib/Context/AuthContext";
 import { usePathname } from "next/navigation";
+import Nav from "@/app/components/Layout/Nav";
 
 const sidebarItems = [
   { url: "/admin", label: "Dashboard", icon: BarChart },
@@ -32,16 +33,9 @@ const sidebarItems = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const path = usePathname();
-
-  const pathName = path.split("/");
-  const lastIndex = `${pathName[pathName.length - 1]
-    .slice(0, 1)
-    .toUpperCase()}${pathName[pathName.length - 1].slice(1)}`;
-  const [activeTab, setActiveTab] = useState(lastIndex);
-
   return (
     <AuthProvider role={"admin"}>
+      <Nav navlinks={[]} />
       <main className="w-full">{children}</main>
     </AuthProvider>
   );
