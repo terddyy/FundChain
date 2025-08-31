@@ -106,7 +106,7 @@ html {
   );
   --gradient-card: linear-gradient(
     145deg,
-    hsl(220, 25%, 8%),
+    hsl(220, 27%, 5%),
     hsl(220, 20%, 12%)
   );
   --gradient-hero: linear-gradient(
@@ -179,10 +179,41 @@ html {
     background: var(--gradient-hero);
     min-height: 100vh;
   }
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+
+  .glow-secondary {
+    box-shadow: var(--glow-secondary);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .transition-glow {
+    transition: var(--transition-glow);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-grid {
+    animation: grid-move 20s linear infinite;
+  }
 }
 
 @layer utilities {
-  .text-gradient {
+   .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -190,24 +221,26 @@ html {
   }
 
   .border-glow {
-    border: 1px solid hsl(var(--border));
-    box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.1);
+    border: 1px solid var(--border);
+    box-shadow: 0 0 10px var(--neon-cyan) / 0.1;
   }
 
   .card-glow {
-    @apply border shadow-md bg-[var(--gradient-card)]  shadow-[var(--shadow-card),0_0_20px_hsl(var(--neon-cyan)/0.05)];; 
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card), 0 0 20px var(--neon-cyan) / 0.05;
   }
 
-    .glow {
-    @apply shadow-[0_0_20px_hsl(var(--neon-cyan)/0.2)];
+  .glow {
+    box-shadow: 0 0 20px var(--neon-cyan) / 0.2;
   }
 
   .shadow-glow {
-    @apply shadow-[0_10px_30px_-5px_hsl(var(--background)/0.3),var(--glow-primary)];
+    box-shadow: 0 10px 30px -5px var(--background) / 0.3, var(--glow-primary);
   }
 
   .surface {
-    @apply bg-[hsl(var(--dark-surface))];
+    background: var(--dark-surface);
   }
 }
 
@@ -224,10 +257,10 @@ html {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.2);
+    box-shadow: 0 0 20px var(--neon-cyan) / 0.2;
   }
   50% {
-    box-shadow: 0 0 30px hsl(var(--neon-cyan) / 0.4);
+    box-shadow: 0 0 30px var(--neon-cyan) / 0.4;
   }
 }
 

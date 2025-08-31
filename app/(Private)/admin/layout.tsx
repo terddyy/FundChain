@@ -34,9 +34,9 @@ const sidebarItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider role={"admin"}>
+    <>
       <Nav navlinks={[]} />
       <main className="w-full">{children}</main>
-    </AuthProvider>
+    </>
   );
 }

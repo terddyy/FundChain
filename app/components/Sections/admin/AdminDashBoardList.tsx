@@ -98,7 +98,7 @@ const AdminDashBoardList = () => {
     data: projectss,
     error,
     mutate,
-  } = useSWR("Projects", fetcher, { suspense: true });
+  } = useSWR("Projects", fetcher);
 
   console.log(projectss);
 

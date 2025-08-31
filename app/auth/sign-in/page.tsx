@@ -1,4 +1,5 @@
 "use client";
+import { handleSignIn } from "@/app/(actions)/Auth";
 import { Button } from "@/app/components/ui/button";
 import {
   Card,
@@ -9,65 +10,33 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { supabase } from "@/lib/supabase/supabaseClient";
 
 import { motion } from "framer-motion";
 import { Zap, EyeOff, Eye, LogIn, ClockFading, CloudFog } from "lucide-react";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [state, action, isLoading] = useActionState(handleSignIn, null);
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
 
-  // log in
-  async function handleLogIn(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setIsLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        toast("Login failed", {
-          description: error.message,
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      const userId = data.user?.id;
-      const userRole =
-        data.user?.app_metadata["https://fundChain.com/claims"]?.role;
-
-      if (userRole) {
-        toast.error("Login successful", {
-          description: `Redirecting to ${userRole} dashboard...`,
-        });
-        router.push(`/${userRole}`);
-      } else {
-        toast.error("Unknown role", {
-          description: "Your account does not have a valid role assigned.",
-        });
-      }
-    } catch (err) {
-      toast.error("Unexpected error", {
-        description: (err as Error).message,
-      });
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    if (state?.error) {
+      toast.error("Login failed", { description: state.error });
     }
-  }
+
+    if (state?.success) {
+      toast.success("Login successful", {
+        description: `Redirecting to ${state.role} dashboard...`,
+      });
+
+      // redirect client-side safely
+      router.push(`/${state.role}`);
+    }
+  }, [state, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-hero">
@@ -98,7 +67,7 @@ const page = () => {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleLogIn} className="space-y-4">
+            <form action={action} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -140,7 +109,7 @@ const page = () => {
                 type="submit"
                 className="w-full"
                 variant="neon"
-                disabled={isLoading}
+                // disabled={isLoading}
               >
                 {isLoading ? (
                   <>
