@@ -9,9 +9,7 @@ import {
 } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { createSupabaseBrowserClient } from "@/lib/supabase/supabaseClient";
-import { createSupabaseServerClient } from "@/lib/supabase/supabaseServer";
-// import { supabase } from "@/lib/supabase/supabaseClient";
+import { supabase } from "@/lib/supabase/supabaseClient";
 
 import { motion } from "framer-motion";
 import { Zap, EyeOff, Eye, LogIn, ClockFading, CloudFog } from "lucide-react";
@@ -21,8 +19,6 @@ import React, { useActionState, useState } from "react";
 import { toast } from "sonner";
 
 const page = () => {
-  const supabase = createSupabaseBrowserClient();
-
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

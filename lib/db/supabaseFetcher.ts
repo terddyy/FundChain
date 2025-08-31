@@ -1,6 +1,4 @@
-import { createSupabaseServerClient } from "../supabase/supabaseServer";
-
-  const supabase =await createSupabaseServerClient();
+import { supabase } from "../supabase/supabaseClient";
 
 // general fetcher
 export const fetcher = async (table: string) => {

@@ -1,21 +1,19 @@
 "use client";
 import React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-
+import { supabase } from "../supabase/supabaseClient";
 import { useRouter } from "next/navigation";
-import { createSupabaseServerClient } from "../supabase/supabaseServer";
 interface Props {
   children: React.ReactNode;
-  role?: "admin" | "user";
+  role: "admin" | "user";
 }
 
 export const AuthContext = createContext<any>(null);
 
-const AuthProvider = async ({ children, role }: Props) => {
+const AuthProvider = ({ children, role }: Props) => {
   const router = useRouter();
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = await createSupabaseServerClient();
 
   useEffect(() => {
     // fetch user data
@@ -30,15 +28,16 @@ const AuthProvider = async ({ children, role }: Props) => {
         .eq("email", userEmail)
         .single();
 
+      console.log();
 
       if (error) {
         console.log(error.message);
-        router.push("/auth/sign-in");
+        router.push("/auth");
         return;
       }
 
       if (user?.role !== role) {
-        return router.push("/auth/sign-in");
+        return router.push("/auth");
       }
       setUserData(user);
       setIsLoading(false);

@@ -13,12 +13,12 @@ export default function RootLayout({
   ];
 
   return (
-    <>
+    <AuthProvider role="user">
       <Nav  navlinks={navItems} />
 
       <main className={`$h-[100vh]`}>
         <section className="p-8">{children}</section>
       </main>
-    </>
+    </AuthProvider>
   );
 }

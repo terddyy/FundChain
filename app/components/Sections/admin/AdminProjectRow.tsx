@@ -6,7 +6,6 @@ import { TableRow, TableCell } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 
 interface AdminProjectRow {
-  status: string;
   name: string
   description: string
   proposerName: string
@@ -30,14 +29,14 @@ const AdminProjectRow = ({project} :{project:AdminProjectRow}) => {
       <TableCell>
         <Badge
           variant={
-            project.status === "approved"
+            status === "approved"
               ? "default"
-              : project.status === "pending"
+              : status === "pending"
               ? "secondary"
               : "destructive"
           }
         >
-          {project.status}
+          {status}
         </Badge>
       </TableCell>
       <TableCell>{project.created_at}</TableCell>
@@ -46,7 +45,7 @@ const AdminProjectRow = ({project} :{project:AdminProjectRow}) => {
           <Button variant="ghost" size="icon">
             <Eye className="w-4 h-4" />
           </Button>
-          {project.status === "pending" && (
+          {status === "pending" && (
             <>
               <Button
                 variant="ghost"
