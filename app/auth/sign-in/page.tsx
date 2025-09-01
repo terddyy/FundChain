@@ -23,20 +23,20 @@ const page = () => {
   const [state, action, isLoading] = useActionState(handleSignIn, null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (state?.error) {
-      toast.error("Login failed", { description: state.error });
-    }
+  // useEffect(() => {
+  //   if (state?.error) {
+  //     toast.error("Login failed", { description: state.error });
+  //   }
 
-    if (state?.success) {
-      toast.success("Login successful", {
-        description: `Redirecting to ${state.role} dashboard...`,
-      });
+  //   if (state?.success) {
+  //     toast.success("Login successful", {
+  //       description: `Redirecting to ${state.role} dashboard...`,
+  //     });
 
-      // redirect client-side safely
-      router.push(`/${state.role}`);
-    }
-  }, [state, router]);
+  //     // redirect client-side safely
+  //     router.push(`/${state.role}`);
+  //   }
+  // }, [state, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-hero">

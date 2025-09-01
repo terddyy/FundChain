@@ -84,12 +84,14 @@ export async function handleSignIn(currentState: unknown, formData: FormData) {
     return { success: false, error: error.message };
   }
 
-  const userRole =
+  const userRole = await
     data.user?.app_metadata["https://fundChain.com/claims"]?.role;
 
   if (!userRole) {
     return { success: false, error: "Unknown role. No valid role assigned." };
   }
+
+  redirect(`/${userRole}`)
 
   return { success: true, role: userRole };
 }

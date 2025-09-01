@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <Nav  />
-      <main className="w-full">{children}</main>
+      <main className="w-full container mx-auto px-4 py-8">{children}</main>
     </AuthProvider>
   );
 }

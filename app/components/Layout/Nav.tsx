@@ -21,22 +21,15 @@ const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useAuth();
 
-  const userNavLinks =
-    user.role === "user"
+  const navItems =
+    user && user.role === "user"
       ? [
+          { href: "/user", label: "Dashboard" },
           { href: "/user/projects", label: "Projects" },
           { href: "/user/sectors", label: "Sectors" },
           { href: "/user/propose", label: "Propose Project" },
         ]
       : [];
-
-  // Add auth links only if user not logged in
-  const navItems = user
-    ? userNavLinks
-    : [
-        { href: "/auth/sign-in", label: "Sign in" },
-        { href: "/auth/sign-up", label: "Sign Up", variant: "neon" },
-      ];
 
   const isActive = (path: string) => location === path;
 
@@ -78,7 +71,7 @@ const Nav = () => {
             ))}
           </div>
 
-          {user && (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -113,6 +106,19 @@ const Nav = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          ) : (
+            <div className="px-4 pt-2 flex gap-2">
+              <Link href="auth/sign-in" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="ghost" size="sm" className="w-full">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="auth/sign-up" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="neon" size="sm" className="w-full">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
           )}
 
           {/* Mobile Menu Button */}

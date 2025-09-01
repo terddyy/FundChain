@@ -13,7 +13,7 @@ export const AuthContext = createContext<any>(null);
 
 const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const AuthProvider = ({ children }: Props) => {
     console.log(userData);
   }, []);
 
+  if (isLoading) return <div>wait lang po sir..</div>;
 
   return (
     <AuthContext.Provider value={userData}>{children}</AuthContext.Provider>

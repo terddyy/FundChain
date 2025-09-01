@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  console.log("user", user);
+
 
   if (
     !user &&
@@ -57,7 +57,6 @@ export async function updateSession(request: NextRequest) {
       user.app_metadata?.["https://fundChain.com/claims"]?.role ||
       user.app_metadata?.role;
 
-    console.log("role:", role);
 
     // 🔒 Block normal users from admin routes
     if (pathname.startsWith("/admin") && role !== "admin") {
