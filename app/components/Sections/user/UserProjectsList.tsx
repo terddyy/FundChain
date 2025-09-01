@@ -62,19 +62,25 @@ const UserProjectsList = () => {
 
   // fetcher
   const {
-    data: allProjects = [],
+    data: allProjects = [null],
     error,
     mutate,
   } = useSWR("Projects", projectFetcher, { suspense: true });
 
-  const filteredProjects = allProjects.filter((project) => {
-    const matchesSearch =
-      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesSector =
-      selectedSector === "all" || project.sector.name === selectedSector;
-    return matchesSearch && matchesSector;
-  });
+  const filteredProjects = allProjects.filter(
+    (project: {
+      name: string;
+      description: string;
+      sector: { name: string };
+    }) => {
+      const matchesSearch =
+        project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSector =
+        selectedSector === "all" || project.sector.name === selectedSector;
+      return matchesSearch && matchesSector;
+    }
+  );
 
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortBy) {
@@ -93,8 +99,11 @@ const UserProjectsList = () => {
         return 0;
     }
   });
- 
-  const sectors = Array.from(new Set(allProjects.map((p) => p.sector.name)));
+
+  const sectors: string[] =
+    Array.from(
+      new Set(allProjects.map((p: { sector: { name: any } }) => p.sector.name))
+    ) || null;
 
   return (
     <div className="min-h-screen py-8">

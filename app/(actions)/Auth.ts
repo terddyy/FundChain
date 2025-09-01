@@ -1,4 +1,5 @@
-"use server"
+"use server";
+import { createBrowserClientSupabase } from "@/lib/supabase/supabaseBrowser";
 import { createClient } from "@/lib/supabase/supabaseServer";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
@@ -84,14 +85,29 @@ export async function handleSignIn(currentState: unknown, formData: FormData) {
     return { success: false, error: error.message };
   }
 
-  const userRole = await
-    data.user?.app_metadata["https://fundChain.com/claims"]?.role;
+  const userRole = await data.user?.app_metadata["https://fundChain.com/claims"]
+    ?.role;
 
   if (!userRole) {
     return { success: false, error: "Unknown role. No valid role assigned." };
   }
 
-  redirect(`/${userRole}`)
+  redirect(`/${userRole}`);
 
   return { success: true, role: userRole };
+}
+
+
+
+
+export async function handleSignOut() {
+  const supabase = await createBrowserClientSupabase();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout error:", error.message);
+    return;
+  }
+
+  redirect("/");
 }

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { GetIndicatorStyle } from "./interfaces";
 import { supabase } from "./supabase/supabaseClient";
-
+import { createBrowserClientSupabase } from "./supabase/supabaseBrowser";
 
 export function handleMove(
   e: React.MouseEvent<HTMLElement>,
@@ -25,14 +25,3 @@ export function handleChange<T extends HTMLInputElement | HTMLTextAreaElement>(
 }
 
 
-
- export  async function handleSignOut() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error("Logout error:", error.message);
-      return;
-    }
-
-    redirect("/auth");
-  }

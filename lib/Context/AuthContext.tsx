@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { createBrowserClientSupabase } from "../supabase/supabaseBrowser";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 interface Props {
   children: React.ReactNode;
@@ -38,7 +39,14 @@ const AuthProvider = ({ children }: Props) => {
     console.log(userData);
   }, []);
 
-  if (isLoading) return <div>wait lang po sir..</div>;
+  if (isLoading)
+    return (
+      <div className="p-4 max-w-sm mx-auto">
+        <Skeleton className="h-6 w-48 mb-2" />
+        <Skeleton className="h-4 w-64 mb-2" />
+        <Skeleton className="h-4 w-56 mb-2" />
+      </div>
+    );
 
   return (
     <AuthContext.Provider value={userData}>{children}</AuthContext.Provider>

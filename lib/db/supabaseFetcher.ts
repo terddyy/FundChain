@@ -1,4 +1,6 @@
-import { supabase } from "../supabase/supabaseClient";
+import { createBrowserClientSupabase } from "../supabase/supabaseBrowser";
+
+const supabase = createBrowserClientSupabase();
 
 // general fetcher
 export const fetcher = async (table: string) => {
@@ -26,7 +28,9 @@ export const projectFetcher = async (table: string) => {
 export const adminUserFetcher = async () => {
   const { data: users, error } = await supabase
     .from("Users")
-    .select("id, name, email, status,Projects(id, name), Funds(id),  Votes!userId(id, userId)")
+    .select(
+      "id, name, email, status,Projects(id, name), Funds(id),  Votes!userId(id, userId)"
+    )
     .eq("role", "user");
 
   if (error) throw error;
@@ -34,13 +38,11 @@ export const adminUserFetcher = async () => {
   return users;
 };
 
-
 // User fetcher for admin list
 export const adminSectorFetcher = async () => {
   const { data: users, error } = await supabase
     .from("Sectors")
-    .select("*, Projects(name), Votes(id)")
-    
+    .select("*, Projects(name), Votes(id)");
 
   if (error) throw error;
 
